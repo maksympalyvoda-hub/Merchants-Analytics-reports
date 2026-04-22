@@ -1,0 +1,515 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Careem Merchant Portal Nav",
+  "schemaVersion": 1,
+  "description": "Interactive Careem Merchant Portal navigation preview — 3-level side nav with accordion behaviour, active state highlighting, and dark teal top bar. Matches the Figma design system exactly."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careem Merchant Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%;overflow:hidden}
+:root{
+  --c-brand:#00493E;--c-dark:#00342C;
+  --c-active:#008470;--c-active-bg:rgba(155,253,211,0.30);
+  --c-hover:rgba(0,73,62,0.06);
+  --c-txt-pri:#282D33;--c-txt-sec:#44505C;--c-txt-ter:#606161;--c-txt-info:#232424;
+  --c-white:#FFFFFF;--c-bg-sec:#F3F5F5;--c-bg-page:#F0F2F2;
+  --c-border:#D4D6D6;--c-card:#F3F5F5;
+  --shadow:0px 2px 8px rgba(0,0,0,0.16);
+  --r-md:8px;--r-sm:4px;
+  --nav-w:240px;--bar-h:56px;
+  --font:'Careem Sans','Inter',system-ui,sans-serif;
+}
+body{font-family:var(--font);font-size:14px;color:var(--c-txt-pri);background:var(--c-bg-page);-webkit-font-smoothing:antialiased}
+a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;text-decoration:none}
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:var(--nav-w);min-width:var(--nav-w);display:flex;flex-direction:column;background:var(--c-white);box-shadow:var(--shadow);overflow-y:auto;overflow-x:hidden;flex-shrink:0;z-index:90;scrollbar-width:thin;scrollbar-color:var(--c-border) transparent}
+.sb-header{display:flex;align-items:flex-end;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid var(--c-border);flex-shrink:0}
+.lang-btn{display:flex;align-items:center;gap:4px;color:var(--c-txt-ter)}
+.lang-txt{font-weight:600;font-size:12px;line-height:16px}
+.nav-content{display:flex;flex-direction:column;gap:12px;padding:20px 0 8px;flex:1}
+.nav-section{display:flex;flex-direction:column}
+.sec-title{font-weight:700;font-size:11px;letter-spacing:0.08em;color:var(--c-txt-ter);padding:0 20px;margin-bottom:2px}
+.l1-list{display:flex;flex-direction:column;padding:0 6px}
+.l1-leaf,.l1-btn{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:var(--r-md);color:var(--c-txt-pri);width:100%;text-align:left;transition:background .14s}
+.l1-leaf:hover,.l1-btn:hover{background:var(--c-hover)}
+.l1-leaf.is-active{color:var(--c-active)}
+.l1-btn.is-open{background:var(--c-active-bg)}
+.ico{display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex-shrink:0;color:inherit}
+.l1-body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.l1-lbl{font-weight:300;font-size:14px;line-height:22px;color:inherit;white-space:normal}
+.l1-btn.is-open .l1-lbl{font-weight:600}
+.l1-sub{font-size:12px;line-height:18px;color:var(--c-txt-sec)}
+.chev{flex-shrink:0;color:inherit;transition:transform .2s}
+.l1-btn .chev{transform:rotate(-90deg)}
+.l1-btn.is-open .chev{transform:rotate(0deg)}
+.l2-panel{overflow:hidden;max-height:0;transition:max-height .22s ease}
+.l2-panel.is-open{max-height:1200px}
+.l2-group{border-left:2px solid var(--c-border);margin-left:17px;display:flex;flex-direction:column}
+.l2-group.g-active{border-left-color:var(--c-active)}
+.l2-btn,.l2-leaf{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 14px 9px 10px;border-radius:var(--r-md);width:100%;text-align:left;color:var(--c-txt-info);transition:background .14s}
+.l2-btn:hover,.l2-leaf:hover{background:var(--c-hover)}
+.l2-btn.is-open{color:var(--c-active)}
+.l2-leaf.is-active{color:var(--c-active)}
+.l2-lbl{font-weight:600;font-size:13px;line-height:20px;color:inherit}
+.l2-chev{flex-shrink:0;transition:transform .2s}
+.l2-btn .l2-chev{transform:rotate(0deg)}
+.l2-btn.is-open .l2-chev{transform:rotate(90deg)}
+.l3-panel{overflow:hidden;max-height:0;transition:max-height .2s ease;border-left:1px solid var(--c-border);margin-left:10px}
+.l3-panel.is-open{max-height:800px}
+.l3-leaf{display:block;padding:7px 10px;font-weight:500;font-size:12px;line-height:18px;color:var(--c-txt-info);border-radius:var(--r-md);transition:background .14s}
+.l3-leaf:hover{background:var(--c-hover)}
+.l3-leaf.is-active{color:var(--c-active)}
+.sb-footer{padding:4px 6px 12px;flex-shrink:0;margin-top:auto}
+.user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--c-bg-sec);border-radius:var(--r-md);width:100%;text-align:left;transition:background .14s}
+.user-card:hover{background:#e4e7e7}
+.u-info{display:flex;flex-direction:column;gap:2px;flex:1}
+.u-name{font-weight:600;font-size:14px;line-height:22px;color:var(--c-txt-pri)}
+.u-status{font-size:12px;line-height:18px;color:var(--c-txt-sec)}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+#topbar{height:var(--bar-h);background:var(--c-dark);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;position:relative;z-index:20}
+.outlet-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.18);border-radius:8px;padding:6px 12px;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font);transition:background .15s,border-color .15s}
+.outlet-btn:hover{background:rgba(255,255,255,0.20)}
+.outlet-btn.open{background:rgba(255,255,255,0.24);border-color:rgba(255,255,255,0.45)}
+.bdot{width:8px;height:8px;border-radius:50%;background:#4ADE80;flex-shrink:0}
+.bchv{flex-shrink:0;opacity:.75;transition:transform .2s}
+.outlet-btn.open .bchv{transform:rotate(180deg)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-btn{background:rgba(255,255,255,0.12);border:none;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .15s}
+.tb-btn:hover{background:rgba(255,255,255,0.22)}
+.av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+#sel-panel{display:none;position:absolute;top:var(--bar-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--c-border);box-shadow:0 8px 24px rgba(0,0,0,0.13);z-index:50;animation:sd .18s ease-out}
+@keyframes sd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+#sel-overlay{display:none;position:fixed;top:var(--bar-h);left:var(--nav-w);right:0;bottom:0;z-index:40}
+#sel-cols{display:flex;border-bottom:1px solid var(--c-border)}
+.sc{flex:1;min-width:0;display:flex;flex-direction:column;border-right:1px solid var(--c-border);max-height:320px}
+.sc:last-child{border-right:none}
+.sc-hdr{padding:10px 14px 8px;font-size:10px;font-weight:700;color:var(--c-txt-ter);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #F0F1F1;flex-shrink:0}
+.sc-list{flex:1;overflow-y:auto;padding:4px 0}
+.sc-list::-webkit-scrollbar{width:4px}
+.sc-list::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px}
+.sc-row{display:flex;align-items:flex-start;gap:8px;padding:7px 14px;cursor:pointer;font-size:13px;color:var(--c-txt-sec);transition:background .1s;user-select:none}
+.sc-row:hover{background:#F5F5F5}
+.sc-row.all-row{font-weight:600;color:var(--c-txt-pri);border-bottom:1px solid #F0F1F1;margin-bottom:2px}
+.sc-row input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--c-active);cursor:pointer}
+.o-lbl{display:flex;flex-direction:column;gap:1px}
+.o-meta{font-size:11px;color:var(--c-txt-ter)}
+.sc-empty{padding:12px 14px;font-size:12px;color:#AAADB0;font-style:italic}
+#sel-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:#FAFAFA;border-top:1px solid #F0F1F1}
+.sel-info{font-size:13px;color:var(--c-txt-ter)}
+.sel-info strong{color:var(--c-active);font-weight:600}
+.sel-acts{display:flex;gap:8px}
+.btn-reset{padding:7px 16px;border:1px solid var(--c-border);background:#fff;color:var(--c-txt-sec);border-radius:8px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600}
+.btn-reset:hover{background:#F5F5F5}
+.btn-apply{padding:7px 16px;border:none;background:var(--c-dark);color:#00E784;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:600}
+.btn-apply:hover{background:var(--c-brand)}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px;scroll-behavior:smooth}
+.flt-bar{display:none;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--c-active-bg);border:1px solid rgba(0,132,112,.2);border-radius:8px;margin-bottom:20px}
+.flt-bar.show{display:flex}
+.flt-txt{font-size:13px;color:var(--c-active);font-weight:500}
+.flt-clr{font-size:12px;color:var(--c-active);font-weight:600;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:var(--font)}
+.pg-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;gap:12px;color:var(--c-txt-ter)}
+.pg-empty-title{font-size:18px;font-weight:600;color:var(--c-txt-sec)}
+.pg-empty-sub{font-size:13px}
+
+/* ── Sales Performance ── */
+.sp-page{display:flex;flex-direction:column;gap:20px}
+.sp-updated{font-size:12px;color:#434545;padding-bottom:4px}
+.sp-cards{display:flex;gap:16px}
+.sp-card{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:16px;flex:1;min-width:0}
+.sp-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sp-card-title{font-size:14px;font-weight:600;color:#202121}
+.sp-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
+.sp-tag.up{background:#DCFAF5;color:#00493E}
+.sp-tag.down{background:#FFE6E6;color:#B81919}
+.sp-card-body{display:flex;gap:24px;align-items:flex-end}
+.sp-card-main .sp-val{font-size:20px;font-weight:600;color:#202121;line-height:28px}
+.sp-card-main .sp-lbl{font-size:16px;color:#5C5E5E;line-height:24px}
+.sp-card-sec .sp-sval{font-size:14px;font-weight:600;color:#202121}
+.sp-card-sec .sp-sunit{font-size:12px;font-weight:600;color:#202121}
+.sp-card-sec .sp-slbl{font-size:12px;color:#5C5E5E}
+.sp-card-lg{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:24px;scroll-margin-top:16px}
+.sp-sec-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.sp-sec-left{display:flex;flex-direction:column;gap:8px}
+.sp-sec-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
+.sp-sec-sub{font-size:16px;color:#5C5E5E;line-height:24px}
+.sp-sec-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;align-self:stretch;gap:12px}
+.sp-export-btn{padding:5px 16px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:flex;align-items:center;gap:6px}
+.sp-dl-btn{padding:5px 17px;border:1px solid #00E784;background:#00E784;color:#282D33;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:flex;align-items:center}
+.sp-stat{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.sp-stat-row{display:flex;align-items:center;gap:10px}
+.sp-stat-val{font-size:20px;font-weight:600;color:#202121}
+.sp-stat-unit{font-size:14px;font-weight:600;color:#202121}
+.sp-stat-lbl{font-size:14px;color:#5C5E5E}
+.sp-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sp-controls-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.sp-seg{display:flex;background:#F0F5F4;border-radius:4px;padding:2px;align-self:flex-start}
+.sp-seg-item{padding:7px 12px;border-radius:2px;font-size:20px;font-weight:600;color:#44505C;cursor:pointer;line-height:28px}
+.sp-seg-item.active{background:#fff;color:#282D33;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.sp-range{display:flex;border:1px solid #F0F5F4;border-radius:4px;height:38px;overflow:visible}
+.sp-range-item{padding:0 16px;font-size:14px;color:#202121;cursor:pointer;border-right:1px solid #F0F5F4;display:flex;align-items:center;white-space:nowrap}
+.sp-range-item:last-child{border-right:none}
+.sp-range-item.active{background:#DCFAF5;color:#008470;font-weight:600;border:1px solid #008470;border-radius:4px;margin:-1px}
+.sp-compared{font-size:12px;color:#434545}
+.sp-tabs{display:flex;gap:32px}
+.sp-tab{padding:8px 0;font-size:14px;font-weight:600;color:#282D33;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.sp-tab.active{color:#008470;border-bottom-color:#008470}
+.sp-chart-wrap{position:relative;width:100%}
+.sp-chart-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px}
+.sp-compare{display:flex;align-items:center;gap:10px;font-size:14px;color:#5C5E5E}
+.sp-switch{width:44px;height:22px;background:#E3E8E7;border-radius:16px;position:relative;cursor:pointer;flex-shrink:0}
+.sp-switch-nob{position:absolute;left:2px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.16)}
+.sp-legend-item{display:flex;align-items:center;gap:8px;font-size:14px;color:#5C5E5E}
+.sp-legend-dot{width:8px;height:8px;border-radius:50%;background:#001942;flex-shrink:0}
+.sp-tbl-wrap{overflow:hidden;border-radius:4px}
+.sp-tbl{width:100%;border-collapse:collapse}
+.sp-tbl th{background:#F0F5F4;padding:12px 16px;font-size:14px;font-weight:600;color:#434545;cursor:pointer;user-select:none;white-space:nowrap}
+.sp-tbl th:first-child{text-align:left;border-radius:4px 0 0 4px}
+.sp-tbl th:last-child{border-radius:0 4px 4px 0}
+.sp-tbl th:not(:first-child){text-align:right}
+.sp-tbl td{padding:16px;border-bottom:1px solid #F0F5F4;font-size:14px;color:#202121}
+.sp-tbl td:not(:first-child){text-align:right}
+.sp-sort{display:inline-flex;flex-direction:column;margin-left:6px;opacity:.5;font-size:9px;line-height:1;vertical-align:middle}
+.sp-pages{display:flex;justify-content:center;align-items:center;gap:2px;padding-top:20px}
+.sp-pg-btn{min-width:24px;height:22px;padding:0 6px;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:2px;cursor:pointer;color:#282D33;border:1px solid transparent}
+.sp-pg-btn.active{border-color:#008470;color:#008470;font-weight:600}
+.sp-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sp-donut-wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:8px}
+.sp-donut-chart{position:relative;width:200px;height:200px;flex-shrink:0}
+.sp-donut-legend{display:flex;flex-direction:column;gap:12px}
+.sp-dl-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#434545}
+.sp-dl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sp-bar-wrap{position:relative;width:100%}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="sb-header">
+    <svg width="100" height="24" viewBox="0 0 100 24" fill="none"><ellipse cx="5.5" cy="4.8" rx="4.8" ry="4.8" fill="#00342C"/><ellipse cx="13.5" cy="1.8" rx="3.2" ry="3.2" fill="#00342C"/><ellipse cx="20" cy="5.2" rx="2.2" ry="2.2" fill="#00342C"/><text x="24" y="18" font-family="system-ui,sans-serif" font-weight="800" font-size="17" fill="#00342C" letter-spacing="-0.2">areem</text></svg>
+    <button class="lang-btn"><span class="lang-txt">EN</span><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 3L4.5 6L7.5 3" stroke="#606161" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <nav class="nav-content" id="nav-root"></nav>
+  <div class="sb-footer">
+    <button class="user-card">
+      <div class="u-info"><span class="u-name">Outlet owner</span><span class="u-status">Signed</span></div>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M9.5 2H12.5C13 2 13.5 2.5 13.5 3V12C13.5 12.5 13 13 12.5 13H9.5" stroke="#282D33" stroke-width="1.3" stroke-linecap="round"/><path d="M6 5L9.5 7.5L6 10" stroke="#282D33" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 7.5H1.5" stroke="#282D33" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</aside>
+<div id="main">
+  <header id="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="outlet-btn" id="outletBtn" onclick="toggleSel()">
+        <span class="bdot"></span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M3 10V21H21V10"/><path d="M1.5 6.5L4 3H20L22.5 6.5"/><path d="M1.5 6.5C1.5 8.433 3.067 10 5 10C6.933 10 8.5 8.433 8.5 6.5"/><path d="M8.5 6.5C8.5 8.433 10.067 10 12 10C13.933 10 15.5 8.433 15.5 6.5"/><path d="M15.5 6.5C15.5 8.433 17.067 10 19 10C20.933 10 22.5 8.433 22.5 6.5"/><path d="M9.5 21V15H14.5V21"/></svg>
+        <span id="badge-txt">KFC Marina · OUT-4821 · Dubai Marina</span>
+        <svg class="bchv" width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 4L6.5 9L11 4" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="tb-right">
+      <button class="tb-btn"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M3 7H1.5V13H3L7 15.5V4.5L3 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 7C9 7 12.5 5.5 15.5 3V17C12.5 14.5 9 13 7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="av">MP</div>
+    </div>
+  </header>
+  <div id="sel-panel">
+    <div id="sel-cols">
+      <div class="sc" id="col-city"></div><div class="sc" id="col-co"></div><div class="sc" id="col-brand"></div><div class="sc" id="col-outlet"></div>
+    </div>
+    <div id="sel-footer">
+      <div class="sel-info">Showing data for <strong id="sel-cnt">1</strong> outlet<span id="sel-s"></span></div>
+      <div class="sel-acts"><button class="btn-reset" onclick="resetSel()">Reset</button><button class="btn-apply" onclick="applySel()">Apply filter</button></div>
+    </div>
+  </div>
+  <div id="sel-overlay" onclick="closeSel()"></div>
+  <div id="content">
+    <div class="flt-bar" id="fltBar"><span class="flt-txt" id="fltTxt"></span><button class="flt-clr" onclick="clearFlt()">Clear filter</button></div>
+    <div id="page-body"></div>
+  </div>
+</div>
+</div>
+<script>
+const I={
+  home:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M2.5 8.75L10 2.5L17.5 8.75V17.5H13.125V12.5H6.875V17.5H2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  chart:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><rect x="2" y="11" width="4" height="7" rx="0.5" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="7" width="4" height="11" rx="0.5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="4" height="15" rx="0.5" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  history:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10 5V10.5L13.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 6.5C4.9 4.1 7.3 2.5 10 2.5C13.866 2.5 17 5.634 17 9.5C17 13.366 13.866 16.5 10 16.5C6.134 16.5 3 13.366 3 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 3.5V6.5H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  comment:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M2.5 3.5C2.5 2.948 2.948 2.5 3.5 2.5H16.5C17.052 2.5 17.5 2.948 17.5 3.5V13C17.5 13.552 17.052 14 16.5 14H6L2.5 17.5V3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  shop:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M2.5 8V17.5H17.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 5.5L4 2.5H16L18.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 5.5C1.5 7.157 2.843 8.5 4.5 8.5S7.5 7.157 7.5 5.5C7.5 7.157 8.843 8.5 10.5 8.5S13.5 7.157 13.5 5.5C13.5 7.157 14.843 8.5 16.5 8.5S19.5 7.157 19.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 17.5V12.5H12V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  clock:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6V10.5L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  bell:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10 3.5C10 3.5 5.5 4.5 5.5 9.5V14.5H14.5V9.5C14.5 4.5 10 3.5 10 3.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 14.5C8.5 15.328 9.172 16 10 16C10.828 16 11.5 15.328 11.5 14.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 3.5V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  tag:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10.5 2.5H5C3.619 2.5 2.5 3.619 2.5 5V10.5L9.086 17.086C9.867 17.867 11.133 17.867 11.914 17.086L17.086 11.914C17.867 11.133 17.867 9.867 17.086 9.086L10.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="7" r="1" fill="currentColor"/></svg>`,
+  calc:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="4" width="10" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2"/><circle cx="6.5" cy="12" r="1" fill="currentColor"/><circle cx="10" cy="12" r="1" fill="currentColor"/><circle cx="13.5" cy="12" r="1" fill="currentColor"/><circle cx="6.5" cy="15.5" r="1" fill="currentColor"/><circle cx="10" cy="15.5" r="1" fill="currentColor"/><circle cx="13.5" cy="15.5" r="1" fill="currentColor"/></svg>`,
+  user:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17.5C3 14.462 6.134 12 10 12C13.866 12 17 14.462 17 17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  help:`<svg width="19" height="19" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 8.5C8 7.395 8.895 6.5 10 6.5C11.105 6.5 12 7.395 12 8.5C12 9.605 11 10 10 10.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="14" r="0.75" fill="currentColor"/></svg>`,
+  chevD:`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 4.5L6.5 9L11 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  chevR:`<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2L8.5 6L4 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  info:`<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#5C5E5E" stroke-width="1.2"/><path d="M8 7.5V11" stroke="#5C5E5E" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="5.5" r="0.7" fill="#5C5E5E"/></svg>`,
+  arrowUp:`<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M4.5 7V2M4.5 2L2 4.5M4.5 2L7 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  arrowDown:`<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M4.5 2V7M4.5 7L2 4.5M4.5 7L7 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+const NAV=[
+  {id:'overview',title:'OVERVIEW',items:[
+    {id:'dashboard',lbl:'Dashboard',ico:'home',path:'/dashboard'},
+    {id:'analytics',lbl:'Analytics & reports',ico:'chart',children:[
+      {id:'dynamic',lbl:'Dynamic insights',path:'/analytics/dynamic-insights'},
+      {id:'sales',lbl:'Sales performance',children:[
+        {id:'orders-sales',lbl:'Orders & sales',path:'/analytics/sales/orders-sales'},
+        {id:'gross-sales',lbl:'Gross sales breakdown',path:'/analytics/sales/gross-sales'},
+        {id:'avg-order',lbl:'Avg. order value',path:'/analytics/sales/avg-order-value'},
+        {id:'meal',lbl:'Meal breakdown',path:'/analytics/sales/meal-breakdown'},
+        {id:'avg-mealtime',lbl:'Avg. order value during mealtime',path:'/analytics/sales/avg-order-mealtime'},
+      ]},
+      {id:'ops-q',lbl:'Operations Quality',children:[
+        {id:'partner-cancel',lbl:'Partner cancellations',path:'/analytics/ops-quality/partner-cancellations'},
+        {id:'defects',lbl:'Defects',path:'/analytics/ops-quality/defects'},
+        {id:'outlet-perf',lbl:'Outlet performance',path:'/analytics/ops-quality/outlet-performance'},
+        {id:'order-prep-eff',lbl:'Order preparation efficiency',path:'/analytics/ops-quality/order-prep-efficiency'},
+        {id:'order-prep-bk',lbl:'Order preparation breakdown',path:'/analytics/ops-quality/order-prep-breakdown'},
+        {id:'avg-accept',lbl:'Avg. acceptance time',path:'/analytics/ops-quality/avg-acceptance-time'},
+        {id:'offline',lbl:'Offline time',path:'/analytics/ops-quality/offline-time'},
+      ]},
+      {id:'cust',lbl:'Customer insights',children:[
+        {id:'cust-breakdown',lbl:'Customer breakdown',path:'/analytics/customer/customer-breakdown'},
+        {id:'no-customers',lbl:'No. of customers',path:'/analytics/customer/no-of-customers'},
+        {id:'ratings',lbl:'Ratings on food orders',path:'/analytics/customer/ratings-food-orders'},
+      ]},
+      {id:'outlet-cmp',lbl:'Outlet Comparison',path:'/analytics/outlet-comparison'},
+      {id:'item-analysis',lbl:'Item analysis',path:'/analytics/item-analysis'},
+      {id:'reports',lbl:'Reports',path:'/analytics/reports'},
+    ]},
+    {id:'recent',lbl:'Recent orders',ico:'history',path:'/recent-orders'},
+  ]},
+  {id:'operations',title:'OPERATIONS',items:[
+    {id:'refunds',lbl:'Refunds & Complaints',ico:'comment',path:'/refunds-complaints'},
+    {id:'outlets-mgmt',lbl:'Outlets Management',ico:'shop',path:'/outlets-management'},
+    {id:'op-hours',lbl:'Operational hours',ico:'clock',path:'/operational-hours'},
+  ]},
+  {id:'biz',title:'YOUR BUSINESS',items:[
+    {id:'marketing',lbl:'Marketing',ico:'bell',path:'/marketing'},
+    {id:'ads',lbl:'Ads',ico:'tag',path:'/ads'},
+    {id:'finances',lbl:'Finances',ico:'calc',path:'/finances'},
+    {id:'user-mgmt',lbl:'User management',ico:'user',path:'/user-management'},
+    {id:'help',lbl:'Help',ico:'help',path:'/help',sub:'10 AM – 5 AM  +97145850000'},
+  ]},
+];
+
+const SALES_PATHS=new Set(['/analytics/sales/orders-sales','/analytics/sales/gross-sales','/analytics/sales/avg-order-value','/analytics/sales/meal-breakdown','/analytics/sales/avg-order-mealtime']);
+const PATH_TO_SEC={'/analytics/sales/orders-sales':'sec-orders-sales','/analytics/sales/gross-sales':'sec-gross-sales','/analytics/sales/avg-order-value':'sec-avg-order','/analytics/sales/meal-breakdown':'sec-meal','/analytics/sales/avg-order-mealtime':'sec-avg-mealtime'};
+
+let activePath='/dashboard',openL1=null,openL2=null,chartInstances={},scrollSpyCleanup=null;
+
+function flatFind(path){for(const s of NAV)for(const l1 of s.items){if(l1.path===path)return{lbl:l1.lbl};for(const l2 of(l1.children||[])){if(l2.path===path)return{lbl:l2.lbl};for(const l3 of(l2.children||[])){if(l3.path===path)return{lbl:l3.lbl}}}}return{lbl:'Page'}}
+function hasActive(l2){if(l2.path===activePath)return true;return(l2.children||[]).some(l3=>l3.path===activePath)}
+function l1HasActive(l1){return(l1.children||[]).some(l2=>hasActive(l2))}
+
+function go(path){
+  const wasSales=SALES_PATHS.has(activePath);
+  activePath=path;
+  for(const s of NAV)for(const l1 of s.items){if(!l1.children)continue;if(l1HasActive(l1)){openL1=l1.id;for(const l2 of l1.children){if(l2.children&&l2.children.some(l3=>l3.path===activePath))openL2=l2.id}}}
+  render();
+  const body=document.getElementById('page-body');
+  if(SALES_PATHS.has(path)){
+    if(!wasSales||body.dataset.page!=='sales'){
+      destroyCharts();if(scrollSpyCleanup){scrollSpyCleanup();scrollSpyCleanup=null}
+      body.dataset.page='sales';body.innerHTML=buildSalesPerf();
+      requestAnimationFrame(()=>{initCharts();initScrollSpy()});
+    }
+    const secId=PATH_TO_SEC[path];
+    setTimeout(()=>{const el=document.getElementById(secId);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},80);
+  }else{
+    destroyCharts();if(scrollSpyCleanup){scrollSpyCleanup();scrollSpyCleanup=null}
+    body.dataset.page='';
+    const r=flatFind(path);
+    body.innerHTML=`<div class="pg-empty"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="32" height="32" rx="6" stroke="#D4D6D6" stroke-width="2"/><path d="M12 20h16M12 26h10" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/><path d="M12 14h16" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/></svg><span class="pg-empty-title">${r.lbl}</span><span class="pg-empty-sub">Content coming soon</span></div>`;
+  }
+}
+function destroyCharts(){Object.values(chartInstances).forEach(c=>{try{c.destroy()}catch(e){}});chartInstances={}}
+function toggleL1(id){if(openL1===id){openL1=null;openL2=null}else{openL1=id;openL2=null}render()}
+function toggleL2(id){openL2=openL2===id?null:id;render()}
+function mkL3(items){return items.map(l3=>`<a class="l3-leaf${l3.path===activePath?' is-active':''}" onclick="go('${l3.path}')">${l3.lbl}</a>`).join('')}
+function mkL2(items){return items.map(l2=>{const isLeaf=!l2.children,selfActive=l2.path===activePath,grpActive=!isLeaf&&l2.children.some(l3=>l3.path===activePath),isOpen=openL2===l2.id;if(isLeaf)return`<div class="l2-group${selfActive?' g-active':''}"><a class="l2-leaf${selfActive?' is-active':''}" onclick="go('${l2.path}')"><span class="l2-lbl">${l2.lbl}</span></a></div>`;return`<div class="l2-group${(isOpen||grpActive)?' g-active':''}"><button class="l2-btn${isOpen?' is-open':''}" onclick="toggleL2('${l2.id}')"><span class="l2-lbl">${l2.lbl}</span><span class="l2-chev">${I.chevR}</span></button><div class="l3-panel${isOpen?' is-open':''}">${mkL3(l2.children)}</div></div>`}).join('')}
+function mkL1(item){const isLeaf=!item.children,selfActive=item.path===activePath;if(isLeaf)return`<a class="l1-leaf${selfActive?' is-active':''}" onclick="go('${item.path}')"><span class="ico">${I[item.ico]||''}</span><span class="l1-body"><span class="l1-lbl">${item.lbl}</span>${item.sub?`<span class="l1-sub">${item.sub}</span>`:''}</span></a>`;const isOpen=openL1===item.id,hasAct=l1HasActive(item);return`<div><button class="l1-btn${(isOpen||hasAct)?' is-open':''}" onclick="toggleL1('${item.id}')"><span class="ico">${I[item.ico]||''}</span><span class="l1-body"><span class="l1-lbl">${item.lbl}</span></span><span class="chev">${I.chevD}</span></button><div class="l2-panel${isOpen?' is-open':''}">${mkL2(item.children)}</div></div>`}
+function render(){document.getElementById('nav-root').innerHTML=NAV.map(s=>`<div class="nav-section"><span class="sec-title">${s.title}</span><div class="l1-list">${s.items.map(mkL1).join('')}</div></div>`).join('')}
+
+function tag(pct,dir){const u=dir==='up';return`<span class="sp-tag ${u?'up':'down'}">${I[u?'arrowUp':'arrowDown']} ${pct}</span>`}
+
+function buildSalesPerf(){return`<div class="sp-page">
+<p class="sp-updated">Updated as of: 16:00</p>
+<div class="sp-cards">
+  <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">100</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval">700</span><span class="sp-slbl">Last 7 days</span></div></div></div>
+  <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Gross sales</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 7,000</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 85,000</span><span class="sp-slbl">Last 7 days</span></div></div></div>
+  <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Avg. order value</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 43</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 46</span><span class="sp-slbl">Last 7 days</span></div></div></div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-orders-sales" data-path="/analytics/sales/orders-sales">
+  <div class="sp-controls">
+    <div class="sp-controls-left">
+      <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="sp-range-item" style="color:#7E8080">Start date → End date</div></div>
+      <span class="sp-compared">Compared to: Monday last week (12 Jan)</span>
+    </div>
+    <button class="sp-dl-btn">Download report</button>
+  </div>
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div class="sp-seg"><div class="sp-seg-item active">Orders</div><div class="sp-seg-item">Gross sales</div><div class="sp-seg-item">Outlets</div></div>
+      <div class="sp-tabs"><span class="sp-tab active">Overall</span><span class="sp-tab">New, retained, reactivated</span><span class="sp-tab">Careem Plus, non Careem Plus</span></div>
+    </div>
+    <div class="sp-sec-right">
+      <button class="sp-export-btn">Export</button>
+      <div class="sp-stat"><div class="sp-stat-row">${I.info}<span class="sp-stat-unit">AED</span><span class="sp-stat-val">20,000</span>${tag('5%','down')}</div><span class="sp-stat-lbl">Total gross sales</span></div>
+    </div>
+  </div>
+  <div class="sp-chart-wrap" style="height:300px"><canvas id="chart-orders"></canvas></div>
+  <div class="sp-chart-footer">
+    <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
+    <div class="sp-legend-item"><div class="sp-legend-dot"></div>Orders: January 12 – February 11</div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-gross-sales" data-path="/analytics/sales/gross-sales">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Gross sales breakdown</div><div class="sp-sec-sub">The distribution of Gross sales by customer zones and menu items.</div></div>
+      <div class="sp-tabs"><span class="sp-tab">By menu item</span><span class="sp-tab active">By customer zone</span><span class="sp-tab">By outlet</span></div>
+    </div>
+    <div class="sp-sec-right"><button class="sp-export-btn">Export <span style="font-size:11px">↓</span></button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
+  </div>
+  <div class="sp-tbl-wrap"><table class="sp-tbl">
+    <thead><tr><th>Customer zone <span class="sp-sort">▲▼</span></th><th>Orders <span class="sp-sort">▲▼</span></th><th>Gross sales (AED) <span class="sp-sort">▲▼</span></th><th>Order contribution <span class="sp-sort">▲▼</span></th></tr></thead>
+    <tbody>
+      <tr><td>Business Bay</td><td>56</td><td>1,200</td><td>16%</td></tr>
+      <tr><td>Dubai Marina</td><td>150</td><td>4,000</td><td>20%</td></tr>
+      <tr><td>Media City</td><td>79</td><td>2,370</td><td>5%</td></tr>
+      <tr><td>Motor City</td><td>6</td><td>240</td><td>2%</td></tr>
+      <tr><td>Internet City</td><td>6</td><td>180</td><td>2%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="sp-pages"><span class="sp-pg-btn">‹</span><span class="sp-pg-btn active">1</span><span class="sp-pg-btn">2</span><span class="sp-pg-btn">3</span><span class="sp-pg-btn">4</span><span class="sp-pg-btn">5</span><span class="sp-pg-btn">›</span></div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-avg-order" data-path="/analytics/sales/avg-order-value">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Avg. Order Value</div><div class="sp-sec-sub">The average basket value based on gross sales for delivered orders</div></div>
+      <div class="sp-tabs"><span class="sp-tab active">Overall</span><span class="sp-tab">New, retained, reactivated</span><span class="sp-tab">Careem Plus, non Careem Plus</span></div>
+    </div>
+    <div class="sp-sec-right">
+      <button class="sp-export-btn">Export</button>
+      <div class="sp-stat"><div class="sp-stat-row">${I.info}<span class="sp-stat-val">100</span>${tag('5%','down')}</div><span class="sp-stat-lbl">Avg. order value</span></div>
+    </div>
+  </div>
+  <div class="sp-chart-wrap" style="height:290px"><canvas id="chart-aov"></canvas></div>
+  <div class="sp-chart-footer">
+    <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
+    <div class="sp-legend-item"><div class="sp-legend-dot"></div>Order value: 12 Jan – 11 Feb</div>
+  </div>
+</div>
+
+<div class="sp-two">
+  <div class="sp-card-lg sp-anchor" id="sec-meal" data-path="/analytics/sales/meal-breakdown">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div class="sp-sec-title">Meal breakdown</div><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
+    <div class="sp-sec-sub" style="margin-bottom:20px">Breakdown of gross sales by meal time</div>
+    <div class="sp-donut-wrap">
+      <div class="sp-donut-chart"><canvas id="chart-meal"></canvas></div>
+      <div class="sp-donut-legend">
+        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#336D65"></div>Breakfast (6AM – 11AM): 42%</div>
+        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#00E784"></div>Lunch (11AM – 3PM): 28%</div>
+        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#334768"></div>Snack (3PM – 7PM): 16%</div>
+        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#9DC9C3"></div>Dinner (7PM – 11PM): 12%</div>
+        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#E7E5E5"></div>Late night (11PM – 6AM): 8%</div>
+      </div>
+    </div>
+  </div>
+  <div class="sp-card-lg sp-anchor" id="sec-avg-mealtime" data-path="/analytics/sales/avg-order-mealtime">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div class="sp-sec-title">Avg. order value during mealtime</div><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
+    <div class="sp-sec-sub" style="margin-bottom:20px">Average basket value by meal time based on gross sales</div>
+    <div class="sp-bar-wrap" style="height:230px"><canvas id="chart-mealtime"></canvas></div>
+  </div>
+</div>
+</div>`}
+
+const DATES=['12 Jan','15 Jan','18 Jan','21 Jan','24 Jan','27 Jan','30 Jan','3 Feb','6 Feb','11 Feb'];
+const LINE_D=[11,10.2,2.5,1.9,2.2,2.1,1.7,2.3,2.2,1.8];
+
+function initCharts(){
+  const mkLine=(id,lbl)=>{const el=document.getElementById(id);if(!el)return;const ctx=el.getContext('2d');chartInstances[id]=new Chart(ctx,{type:'line',data:{labels:DATES,datasets:[{data:LINE_D,borderColor:'#001942',borderWidth:2,pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointRadius:4,pointHoverRadius:6,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,c.chart.height);g.addColorStop(0,'rgba(0,25,66,0.12)');g.addColorStop(1,'rgba(0,25,66,0.01)');return g},tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${lbl}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}},min:0,max:13}}}})};
+  mkLine('chart-orders','Orders');
+  mkLine('chart-aov','AED');
+  const c3=document.getElementById('chart-meal');
+  if(c3)chartInstances['chart-meal']=new Chart(c3.getContext('2d'),{type:'doughnut',data:{datasets:[{data:[42,28,16,12,8],backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#E7E5E5'],borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${['Breakfast','Lunch','Snack','Dinner','Late night'][i.dataIndex]}: ${i.raw}%`}}}}});
+  const c4=document.getElementById('chart-mealtime');
+  if(c4)chartInstances['chart-mealtime']=new Chart(c4.getContext('2d'),{type:'bar',data:{labels:['Breakfast\n6AM–11AM','Lunch\n11AM–3PM','Snack\n3PM–7PM','Dinner\n7PM–11PM','Late night\n11PM–6AM'],datasets:[{data:[6.8,7.6,3.9,6.6,3.6],backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#E7E5E5'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`AED ${i.raw}`}}},scales:{x:{grid:{display:false},ticks:{color:'#5C5E5E',font:{size:11},maxRotation:0}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:11}},min:0,max:10}}}});
+}
+
+function initScrollSpy(){
+  const content=document.getElementById('content');
+  function spy(){
+    const anchors=[...document.querySelectorAll('.sp-anchor')];
+    const cRect=content.getBoundingClientRect();
+    let best=null,bestScore=-Infinity;
+    for(const el of anchors){
+      const r=el.getBoundingClientRect();
+      const vis=Math.max(0,Math.min(r.bottom,cRect.bottom)-Math.max(r.top,cRect.top));
+      const score=vis-Math.max(0,r.top-cRect.top)*0.5;
+      if(score>bestScore){bestScore=score;best=el}
+    }
+    if(best){const p=best.dataset.path;if(p&&p!==activePath){activePath=p;render()}}
+  }
+  content.addEventListener('scroll',spy,{passive:true});
+  scrollSpyCleanup=()=>content.removeEventListener('scroll',spy);
+}
+
+// ── Outlet selector ───────────────────────────────────────
+const SD={
+  cities:[{id:'dubai',name:'Dubai'},{id:'abudhabi',name:'Abu Dhabi'},{id:'sharjah',name:'Sharjah'},{id:'ajman',name:'Ajman'},{id:'rak',name:'Ras Al Khaimah'}],
+  cos:[{id:'americana',name:'Americana Restaurants',cities:['dubai','abudhabi','sharjah','ajman']},{id:'herfy',name:'Herfy Foods',cities:['dubai','abudhabi']},{id:'agthia',name:'Agthia Group',cities:['dubai','sharjah','rak']}],
+  brands:[{id:'kfc',name:'KFC',co:'americana'},{id:'ph',name:'Pizza Hut',co:'americana'},{id:'hardees',name:'Hardees',co:'americana'},{id:'herfy-b',name:'Herfy',co:'herfy'},{id:'popeyes',name:'Popeyes',co:'herfy'}],
+  outlets:[{id:'kfc-marina',name:'KFC Marina',code:'OUT-4821',area:'Dubai Marina',brand:'kfc',city:'dubai'},{id:'kfc-jbr',name:'KFC JBR',code:'OUT-4822',area:'JBR',brand:'kfc',city:'dubai'},{id:'kfc-difc',name:'KFC DIFC',code:'OUT-4823',area:'DIFC',brand:'kfc',city:'dubai'},{id:'kfc-yas',name:'KFC Yas Mall',code:'OUT-5102',area:'Yas Island',brand:'kfc',city:'abudhabi'},{id:'kfc-shj',name:'KFC Sharjah City',code:'OUT-5201',area:'City Centre',brand:'kfc',city:'sharjah'},{id:'ph-marina',name:'Pizza Hut Marina',code:'OUT-4901',area:'Dubai Marina',brand:'ph',city:'dubai'},{id:'ph-moe',name:'Pizza Hut Mall of Emirates',code:'OUT-4902',area:'Al Barsha',brand:'ph',city:'dubai'},{id:'hrd-jbr',name:'Hardees JBR',code:'OUT-5001',area:'JBR',brand:'hardees',city:'dubai'},{id:'herfy-d',name:'Herfy Deira',code:'OUT-6101',area:'Deira',brand:'herfy-b',city:'dubai'},{id:'pop-dm',name:'Popeyes Dubai Mall',code:'OUT-6201',area:'Downtown Dubai',brand:'popeyes',city:'dubai'},{id:'pop-ad',name:'Popeyes Abu Dhabi',code:'OUT-6202',area:'Corniche Road',brand:'popeyes',city:'abudhabi'}],
+};
+let P={cities:new Set(['dubai']),cos:new Set(['americana']),brands:new Set(['kfc']),outlets:new Set(['kfc-marina'])};
+let A={cities:new Set(['dubai']),cos:new Set(['americana']),brands:new Set(['kfc']),outlets:new Set(['kfc-marina'])};
+const cp=x=>({cities:new Set([...x.cities]),cos:new Set([...x.cos]),brands:new Set([...x.brands]),outlets:new Set([...x.outlets])});
+const avCos=()=>SD.cos.filter(c=>c.cities.some(ci=>P.cities.has(ci)));
+const avBrands=()=>{const ids=new Set(avCos().filter(c=>P.cos.has(c.id)).map(c=>c.id));return SD.brands.filter(b=>ids.has(b.co))};
+const avOutlets=()=>{const ids=new Set(avBrands().filter(b=>P.brands.has(b.id)).map(b=>b.id));return SD.outlets.filter(o=>P.cities.has(o.city)&&ids.has(o.brand))};
+function togCity(id,v){if(v){P.cities.add(id);SD.cos.filter(c=>c.cities.includes(id)&&!P.cos.has(c.id)).forEach(c=>{P.cos.add(c.id);SD.brands.filter(b=>b.co===c.id).forEach(b=>{P.brands.add(b.id);SD.outlets.filter(o=>o.brand===b.id&&o.city===id).forEach(o=>P.outlets.add(o.id))})});SD.outlets.filter(o=>o.city===id&&P.brands.has(o.brand)).forEach(o=>P.outlets.add(o.id))}else{P.cities.delete(id);SD.outlets.filter(o=>o.city===id).forEach(o=>P.outlets.delete(o.id));SD.cos.forEach(c=>{if(!c.cities.some(ci=>P.cities.has(ci))){P.cos.delete(c.id);SD.brands.filter(b=>b.co===c.id).forEach(b=>{P.brands.delete(b.id);SD.outlets.filter(o=>o.brand===b.id).forEach(o=>P.outlets.delete(o.id))})}})};renderSel()}
+function togCo(id,v){if(v){P.cos.add(id);SD.brands.filter(b=>b.co===id).forEach(b=>{P.brands.add(b.id);SD.outlets.filter(o=>o.brand===b.id&&P.cities.has(o.city)).forEach(o=>P.outlets.add(o.id))})}else{P.cos.delete(id);SD.brands.filter(b=>b.co===id).forEach(b=>{P.brands.delete(b.id);SD.outlets.filter(o=>o.brand===b.id).forEach(o=>P.outlets.delete(o.id))})};renderSel()}
+function togBrand(id,v){if(v){P.brands.add(id);SD.outlets.filter(o=>o.brand===id&&P.cities.has(o.city)).forEach(o=>P.outlets.add(o.id))}else{P.brands.delete(id);SD.outlets.filter(o=>o.brand===id).forEach(o=>P.outlets.delete(o.id))};renderSel()}
+function togOutlet(id,v){if(v)P.outlets.add(id);else P.outlets.delete(id);renderSel()}
+function saCity(v){if(v){SD.cities.forEach(c=>togCity(c.id,true))}else{[...P.cities].forEach(id=>togCity(id,false))};renderSel()}
+function saCo(v){const av=avCos();if(v){av.forEach(c=>togCo(c.id,true))}else{av.forEach(c=>togCo(c.id,false))};renderSel()}
+function saBrand(v){const av=avBrands();if(v){av.forEach(b=>togBrand(b.id,true))}else{av.forEach(b=>togBrand(b.id,false))};renderSel()}
+function saOutlet(v){const av=avOutlets();if(v)av.forEach(o=>P.outlets.add(o.id));else av.forEach(o=>P.outlets.delete(o.id));renderSel()}
+function renderSel(){
+  const aC=avCos(),aB=avBrands(),aO=avOutlets();
+  document.getElementById('col-city').innerHTML=col('City',SD.cities,P.cities,'togCity','saCity');
+  document.getElementById('col-co').innerHTML=col('Company',aC,P.cos,'togCo','saCo');
+  document.getElementById('col-brand').innerHTML=col('Brand',aB,P.brands,'togBrand','saBrand');
+  document.getElementById('col-outlet').innerHTML=colOutlet(aO);
+  const n=P.outlets.size;document.getElementById('sel-cnt').textContent=n;document.getElementById('sel-s').textContent=n===1?'':'s';
+  document.querySelectorAll('.cb-all[data-indet="1"]').forEach(cb=>cb.indeterminate=true);
+}
+function col(title,items,sel,tFn,saFn){const allLbl={City:'All cities',Company:'All companies',Brand:'All brands'}[title];const sc=items.filter(i=>sel.has(i.id)).length,ac=items.length>0&&sc===items.length,an=sc>0&&!ac;return`<div class="sc-hdr">${title}</div><div class="sc-list"><label class="sc-row all-row"><input type="checkbox" class="cb-all" ${ac?'checked':''} ${an?'data-indet="1"':''} onchange="${saFn}(this.checked)"><span>${allLbl}</span></label>${items.map(i=>`<label class="sc-row"><input type="checkbox" ${sel.has(i.id)?'checked':''} onchange="${tFn}('${i.id}',this.checked)"><span>${i.name}</span></label>`).join('')}${items.length===0?'<div class="sc-empty">No options</div>':''}</div>`}
+function colOutlet(items){const sc=items.filter(o=>P.outlets.has(o.id)).length,ac=items.length>0&&sc===items.length,an=sc>0&&!ac;return`<div class="sc-hdr">Outlet</div><div class="sc-list"><label class="sc-row all-row"><input type="checkbox" class="cb-all" ${ac?'checked':''} ${an?'data-indet="1"':''} onchange="saOutlet(this.checked)"><span>All outlets</span></label>${items.map(o=>`<label class="sc-row"><input type="checkbox" ${P.outlets.has(o.id)?'checked':''} onchange="togOutlet('${o.id}',this.checked)"><span class="o-lbl"><span>${o.name}</span><span class="o-meta">${o.code} · ${o.area}</span></span></label>`).join('')}${items.length===0?'<div class="sc-empty">Select brands first</div>':''}</div>`}
+let selOpen=false;
+function toggleSel(){selOpen?closeSel():openSel()}
+function openSel(){selOpen=true;P=cp(A);renderSel();document.getElementById('sel-panel').style.display='block';document.getElementById('sel-overlay').style.display='block';document.getElementById('outletBtn').classList.add('open')}
+function closeSel(){selOpen=false;document.getElementById('sel-panel').style.display='none';document.getElementById('sel-overlay').style.display='none';document.getElementById('outletBtn').classList.remove('open')}
+function resetSel(){P=cp(A);renderSel()}
+function applySel(){A=cp(P);closeSel();updateBadge();updateBanner()}
+function badgeTxt(){const sel=SD.outlets.filter(o=>A.outlets.has(o.id)),n=sel.length;if(!n)return'No outlets';if(n===SD.outlets.length)return'All outlets';if(n===1){const o=sel[0];return`${o.name} · ${o.code} · ${o.area}`}const bIds=new Set(sel.map(o=>o.brand));if(bIds.size===1){const b=SD.brands.find(b=>b.id===[...bIds][0]),tot=SD.outlets.filter(o=>o.brand===b.id).length;return tot===n?`${b.name} · All outlets`:`${b.name} · ${n} outlets`}return`${bIds.size} brands · ${n} outlets`}
+function updateBadge(){document.getElementById('badge-txt').textContent=badgeTxt()}
+function updateBanner(){const n=A.outlets.size,bar=document.getElementById('fltBar');if(n!==1){bar.classList.add('show');document.getElementById('fltTxt').textContent=n===0?'⚠ No outlets selected':`Filtered: ${badgeTxt()}`}else bar.classList.remove('show')}
+function clearFlt(){A={cities:new Set(['dubai']),cos:new Set(['americana']),brands:new Set(['kfc']),outlets:new Set(['kfc-marina'])};updateBadge();updateBanner()}
+
+go('/analytics/sales/orders-sales');
+</script>
+</body>
+</html>
