@@ -220,6 +220,67 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .oq-kv{display:flex;flex-direction:column;gap:2px}
 .oq-kv-val{font-size:20px;font-weight:600;color:#202121;display:flex;align-items:center;gap:8px}
 .oq-kv-lbl{font-size:13px;color:#5C5E5E}
+
+/* ── Customer Insights ── */
+.ci-seg-ctrl{display:flex;background:#F0F5F4;border-radius:4px;padding:2px;margin-bottom:16px;align-self:flex-start}
+.ci-seg-item{padding:7px 16px;border-radius:2px;font-size:16px;font-weight:600;color:#44505C;cursor:pointer;line-height:24px}
+.ci-seg-item.active{background:#fff;color:#282D33;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.ci-breakdown-layout{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start;padding-top:24px}
+.ci-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.ci-donut-chart{width:240px;height:240px;position:relative}
+.ci-donut-total{text-align:center}
+.ci-donut-total-lbl{font-size:13px;color:#606161;margin-bottom:4px}
+.ci-donut-total-val{font-size:20px;font-weight:600;color:#232424;display:flex;align-items:center;gap:8px;justify-content:center}
+.ci-seg-stats{display:flex;flex-direction:column;gap:24px}
+.ci-seg-row{display:flex;flex-direction:column;gap:6px}
+.ci-seg-header{display:flex;align-items:center;gap:10px}
+.ci-seg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.ci-seg-name{font-size:16px;font-weight:600;color:#232424}
+.ci-seg-desc{font-size:13px;color:#606161;padding-left:22px}
+.ci-seg-metrics{display:flex;align-items:center;padding-left:22px;margin-top:4px}
+.ci-seg-metric{display:flex;flex-direction:column;gap:2px;padding-right:24px}
+.ci-seg-metric-val{font-size:16px;font-weight:600;color:#232424}
+.ci-seg-metric-lbl{font-size:12px;color:#606161}
+.ci-seg-divider{width:1px;height:52px;background:#F3F5F5;margin-right:24px;flex-shrink:0}
+.ci-with-sidebar{display:grid;grid-template-columns:1fr 260px;gap:20px;align-items:start}
+.ci-protip{background:#fff;border:1px solid #F0F5F4;border-radius:8px;overflow:hidden}
+.ci-protip-hdr{padding:12px 16px;background:#F3F5F5;font-size:14px;font-weight:700;color:#282D33;border-bottom:1px solid #F0F5F4}
+.ci-protip-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.ci-cplus-badge{display:inline-flex;align-items:center;padding:3px 10px;background:#00342C;color:#00E784;border-radius:4px;font-size:12px;font-weight:700;width:fit-content;letter-spacing:0.02em}
+.ci-protip-section{display:flex;flex-direction:column;gap:8px}
+.ci-protip-section-title{font-size:14px;font-weight:600;color:#232424}
+.ci-protip-section-body{font-size:13px;color:#474747;line-height:1.6}
+.ci-protip-cta{padding:7px 16px;border:1px solid #D4D6D6;background:#fff;color:#232424;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:var(--font);margin-top:4px}
+.ci-star{color:#F5A623;font-size:14px}
+.ci-funnel-container{padding-top:8px}
+.ci-funnel-labels{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:20px}
+.ci-funnel-label{display:flex;flex-direction:column;gap:4px}
+.ci-funnel-drop{font-size:11px;font-weight:600;color:#B81919;background:#FFE6E6;border-radius:4px;padding:2px 8px;display:inline-flex;align-items:center;gap:3px;margin-bottom:4px;width:fit-content}
+.ci-funnel-pct{font-size:22px;font-weight:600;color:#232424}
+.ci-funnel-name{font-size:14px;font-weight:600;color:#232424}
+.ci-funnel-desc{font-size:12px;color:#606161;line-height:1.5}
+.ci-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.ci-kpi-card{background:#F3F5F5;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.ci-kpi-val{font-size:22px;font-weight:600;color:#232424;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ci-kpi-lbl{font-size:12px;color:#606161}
+.ci-kpi-sub{font-size:11px;color:#606161;margin-top:2px}
+.ci-disc-insight{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#F3F5F5;border-radius:8px;margin-top:16px;font-size:13px;color:#44505C;line-height:1.5}
+.ci-disc-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.ci-cohort-table{width:100%;border-collapse:collapse;font-size:12px}
+.ci-cohort-table th{background:#F0F5F4;padding:9px 12px;font-size:11px;font-weight:600;color:#434545;text-align:center;border:1px solid #E8ECEC;white-space:nowrap}
+.ci-cohort-table th:first-child,.ci-cohort-table th:nth-child(2){text-align:left}
+.ci-cohort-table td{padding:9px 12px;text-align:center;border:1px solid #E8ECEC;font-size:12px;font-weight:500;white-space:nowrap}
+.ci-cohort-table td:first-child,.ci-cohort-table td:nth-child(2){text-align:left;background:#fff!important;color:#282D33!important;font-weight:600}
+.ci-coh-empty{background:#FAFAFA;color:#D4D6D6}
+.ci-coh-0{background:#fff;color:#282D33}
+.ci-coh-1{background:#DCFAF5;color:#00493E}
+.ci-coh-2{background:#9DC9C3;color:#003830}
+.ci-coh-3{background:#336D65;color:#fff}
+.ci-coh-4{background:#00342C;color:#fff}
+.ci-cltv-row{display:flex;gap:16px;margin-top:20px}
+.ci-cltv-card{flex:1;border:1px solid #F0F5F4;border-radius:8px;padding:16px;background:#fff}
+.ci-cltv-title{font-size:12px;color:#606161;margin-bottom:4px}
+.ci-cltv-val{font-size:18px;font-weight:600;color:#232424}
 </style>
 </head>
 <body>
@@ -313,6 +374,12 @@ const NAV=[
         {id:'cust-breakdown',lbl:'Customer breakdown',path:'/analytics/customer/customer-breakdown'},
         {id:'no-customers',lbl:'No. of customers',path:'/analytics/customer/no-of-customers'},
         {id:'ratings',lbl:'Ratings on food orders',path:'/analytics/customer/ratings-food-orders'},
+        {id:'cust-funnel',lbl:'Customer conversion funnel',path:'/analytics/customer/conversion-funnel'},
+        {id:'order-freq',lbl:'Order frequency',path:'/analytics/customer/order-frequency'},
+        {id:'reorder-rate',lbl:'Reorder rate',path:'/analytics/customer/reorder-rate'},
+        {id:'impressions',lbl:'Impressions & CTR',path:'/analytics/customer/impressions'},
+        {id:'discount-impact',lbl:'Discount impact',path:'/analytics/customer/discount-impact'},
+        {id:'retention',lbl:'Retention & CLTV',path:'/analytics/customer/retention'},
       ]},
       {id:'outlet-cmp',lbl:'Outlet Comparison',path:'/analytics/outlet-comparison'},
       {id:'item-analysis',lbl:'Item analysis',path:'/analytics/item-analysis'},
@@ -338,6 +405,8 @@ const SALES_PATHS=new Set(['/analytics/sales/orders-sales','/analytics/sales/gro
 const PATH_TO_SEC={'/analytics/sales/orders-sales':'sec-orders-sales','/analytics/sales/gross-sales':'sec-gross-sales','/analytics/sales/avg-order-value':'sec-avg-order','/analytics/sales/meal-breakdown':'sec-meal','/analytics/sales/avg-order-mealtime':'sec-avg-mealtime'};
 const OPS_PATHS=new Set(['/analytics/ops-quality/partner-cancellations','/analytics/ops-quality/defects','/analytics/ops-quality/outlet-performance','/analytics/ops-quality/order-prep-efficiency','/analytics/ops-quality/order-prep-breakdown','/analytics/ops-quality/avg-acceptance-time','/analytics/ops-quality/offline-time']);
 const PATH_TO_OPS_SEC={'/analytics/ops-quality/partner-cancellations':'sec-partner-cancel','/analytics/ops-quality/defects':'sec-defects','/analytics/ops-quality/outlet-performance':'sec-outlet-perf','/analytics/ops-quality/order-prep-efficiency':'sec-order-prep-eff','/analytics/ops-quality/order-prep-breakdown':'sec-order-prep-bk','/analytics/ops-quality/avg-acceptance-time':'sec-avg-accept','/analytics/ops-quality/offline-time':'sec-offline'};
+const CUST_PATHS=new Set(['/analytics/customer/customer-breakdown','/analytics/customer/no-of-customers','/analytics/customer/ratings-food-orders','/analytics/customer/conversion-funnel','/analytics/customer/order-frequency','/analytics/customer/reorder-rate','/analytics/customer/impressions','/analytics/customer/discount-impact','/analytics/customer/retention']);
+const PATH_TO_CUST_SEC={'/analytics/customer/customer-breakdown':'sec-cust-breakdown','/analytics/customer/no-of-customers':'sec-no-customers','/analytics/customer/ratings-food-orders':'sec-ratings','/analytics/customer/conversion-funnel':'sec-cust-funnel','/analytics/customer/order-frequency':'sec-order-freq','/analytics/customer/reorder-rate':'sec-reorder-rate','/analytics/customer/impressions':'sec-impressions','/analytics/customer/discount-impact':'sec-discount-impact','/analytics/customer/retention':'sec-retention'};
 
 let activePath='/dashboard',openL1=null,openL2=null,chartInstances={},scrollSpyCleanup=null;
 
@@ -348,6 +417,7 @@ function l1HasActive(l1){return(l1.children||[]).some(l2=>hasActive(l2))}
 function go(path){
   const wasSales=SALES_PATHS.has(activePath);
   const wasOps=OPS_PATHS.has(activePath);
+  const wasCust=CUST_PATHS.has(activePath);
   activePath=path;
   for(const s of NAV)for(const l1 of s.items){if(!l1.children)continue;if(l1HasActive(l1)){openL1=l1.id;for(const l2 of l1.children){if(l2.children&&l2.children.some(l3=>l3.path===activePath))openL2=l2.id}}}
   render();
@@ -367,6 +437,14 @@ function go(path){
       requestAnimationFrame(()=>{initOpsCharts();initScrollSpy()});
     }
     const secId=PATH_TO_OPS_SEC[path];
+    setTimeout(()=>{const el=document.getElementById(secId);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},80);
+  }else if(CUST_PATHS.has(path)){
+    if(!wasCust||body.dataset.page!=='cust'){
+      destroyCharts();if(scrollSpyCleanup){scrollSpyCleanup();scrollSpyCleanup=null}
+      body.dataset.page='cust';body.innerHTML=buildCustomerInsights();
+      requestAnimationFrame(()=>{initCustCharts();initScrollSpy()});
+    }
+    const secId=PATH_TO_CUST_SEC[path];
     setTimeout(()=>{const el=document.getElementById(secId);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},80);
   }else{
     destroyCharts();if(scrollSpyCleanup){scrollSpyCleanup();scrollSpyCleanup=null}
@@ -688,6 +766,279 @@ function buildOpsQuality(){
 
 </div>`}
 
+function buildCustomerInsights(){return`<div class="sp-page">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+  <h1 style="font-size:24px;font-weight:600;color:#232424;line-height:32px">Customer insights</h1>
+  <button class="oq-dl-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6.5L7 9.5L10 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Download report</button>
+</div>
+<p class="sp-updated">Compared to: Monday last week (12 Jan)</p>
+
+<div class="sp-card-lg sp-anchor" id="sec-cust-breakdown" data-path="/analytics/customer/customer-breakdown" style="scroll-margin-top:16px">
+  <div class="ci-seg-ctrl"><div class="ci-seg-item active">New, retained, reactivated</div><div class="ci-seg-item">Careem Plus, non Careem Plus</div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div class="sp-tabs"><span class="sp-tab">Yesterday</span><span class="sp-tab active">Last 7 days</span><span class="sp-tab">Last 30 days</span><span class="sp-tab">Last 90 days</span></div>
+    <span style="font-size:15px;color:#606161">12 Jan – 11 Feb</span>
+  </div>
+  <div class="ci-breakdown-layout">
+    <div class="ci-donut-wrap">
+      <div class="ci-donut-chart"><canvas id="ci-chart-breakdown"></canvas></div>
+      <div class="ci-donut-total">
+        <div class="ci-donut-total-lbl">Total no. of customers</div>
+        <div class="ci-donut-total-val">1,600 ${tag('5%','up')}</div>
+      </div>
+    </div>
+    <div class="ci-seg-stats">
+      <div class="ci-seg-row">
+        <div class="ci-seg-header"><div class="ci-seg-dot" style="background:#00E784"></div><span class="ci-seg-name">New customers</span></div>
+        <div class="ci-seg-desc">Customers who placed an order for the first time.</div>
+        <div class="ci-seg-metrics">
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">42%</div><div class="ci-seg-metric-lbl">% of all</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">560</div><div class="ci-seg-metric-lbl">No. of orders</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 22,400</div><div class="ci-seg-metric-lbl">Total gross sales</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 56</div><div class="ci-seg-metric-lbl">Avg. order value</div></div>
+        </div>
+      </div>
+      <div class="ci-seg-row">
+        <div class="ci-seg-header"><div class="ci-seg-dot" style="background:#00342C"></div><span class="ci-seg-name">Retained customers</span></div>
+        <div class="ci-seg-desc">Customers who ordered at least once in last 30 days.</div>
+        <div class="ci-seg-metrics">
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">29%</div><div class="ci-seg-metric-lbl">% of all</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">120</div><div class="ci-seg-metric-lbl">No. of orders</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 4,800</div><div class="ci-seg-metric-lbl">Total gross sales</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 60</div><div class="ci-seg-metric-lbl">Avg. order value</div></div>
+        </div>
+      </div>
+      <div class="ci-seg-row">
+        <div class="ci-seg-header"><div class="ci-seg-dot" style="background:#9DC9C3"></div><span class="ci-seg-name">Reactivated customers</span></div>
+        <div class="ci-seg-desc">Customers who returned after a 30-day inactive period.</div>
+        <div class="ci-seg-metrics">
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">29%</div><div class="ci-seg-metric-lbl">% of all</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val">320</div><div class="ci-seg-metric-lbl">No. of orders</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 12,800</div><div class="ci-seg-metric-lbl">Total gross sales</div></div>
+          <div class="ci-seg-divider"></div>
+          <div class="ci-seg-metric"><div class="ci-seg-metric-val"><span style="font-size:11px;font-weight:600">AED</span> 71</div><div class="ci-seg-metric-lbl">Avg. order value</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-no-customers" data-path="/analytics/customer/no-of-customers" style="scroll-margin-top:16px">
+  <div class="ci-with-sidebar">
+    <div>
+      <div class="sp-sec-top">
+        <div class="sp-sec-left">
+          <div><div class="sp-sec-title">No. of customers</div><div class="sp-sec-sub">Number of unique customers who placed an order</div></div>
+          <div class="sp-tabs"><span class="sp-tab active">Overall</span><span class="sp-tab">New, retained, reactivated</span><span class="sp-tab">Careem Plus, non Careem Plus</span></div>
+        </div>
+        <div class="sp-sec-right"><button class="sp-export-btn">Export</button></div>
+      </div>
+      <div class="sp-chart-wrap" style="height:240px"><canvas id="ci-chart-customers"></canvas></div>
+      <div class="sp-chart-footer">
+        <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
+        <div class="sp-legend-item"><div class="sp-legend-dot"></div>No. of customers: 12 Jan – 11 Feb</div>
+      </div>
+    </div>
+    <div class="ci-protip">
+      <div class="ci-protip-hdr">Pro tip</div>
+      <div class="ci-protip-body">
+        <div class="ci-cplus-badge">Careem+</div>
+        <div class="ci-protip-section-body">Careem Plus customers order more frequently and spend more per order. Encouraging sign-ups can meaningfully boost your revenue.</div>
+        <div class="ci-protip-section">
+          <div class="ci-protip-section-title">New customers</div>
+          <div class="ci-protip-section-body">Attract first-time buyers with a welcome offer. Customers who have a great first experience are significantly more likely to return.</div>
+          <button class="ci-protip-cta">Set up a promotion</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-ratings" data-path="/analytics/customer/ratings-food-orders" style="scroll-margin-top:16px">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Ratings on food orders</div><div class="sp-sec-sub">The average rating given by customers to the quality of the food.</div></div>
+      <div class="sp-tabs"><span class="sp-tab active">Avg. rating</span><span class="sp-tab">Low rated orders</span></div>
+    </div>
+    <div class="sp-sec-right">
+      <button class="sp-export-btn">Export</button>
+      <div class="sp-stat"><div class="sp-stat-row">${I.info}<span class="sp-stat-val">4.3</span><span class="ci-star">★</span>${tag('5%','down')}</div><span class="sp-stat-lbl">Avg. food rating</span></div>
+    </div>
+  </div>
+  <div class="sp-chart-wrap" style="height:260px"><canvas id="ci-chart-ratings"></canvas></div>
+  <div class="sp-chart-footer">
+    <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
+    <div class="sp-legend-item"><div class="sp-legend-dot"></div>Rating: 12 Jan – 11 Feb</div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-cust-funnel" data-path="/analytics/customer/conversion-funnel" style="scroll-margin-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+    <div><div class="sp-sec-title">Customer conversion funnel</div><div class="sp-sec-sub">From impression to order — see where customers drop off in your purchase journey.</div></div>
+    <span class="oq-date-lbl">12 Jan – 11 Feb</span>
+  </div>
+  <div class="ci-funnel-container">
+    <svg viewBox="0 0 1000 280" style="width:100%;height:210px;display:block" preserveAspectRatio="none">
+      <polygon points="0,0 245,49 245,231 0,280" fill="#336D65"/>
+      <polygon points="250,49 495,112 495,168 250,231" fill="#008470"/>
+      <polygon points="500,112 745,133 745,147 500,168" fill="#9DC9C3"/>
+      <polygon points="750,133 995,138 995,142 750,147" fill="#DCFAF5"/>
+      <line x1="247" y1="0" x2="247" y2="280" stroke="white" stroke-width="4"/>
+      <line x1="498" y1="49" x2="498" y2="231" stroke="white" stroke-width="4"/>
+      <line x1="748" y1="112" x2="748" y2="168" stroke="white" stroke-width="4"/>
+    </svg>
+    <div class="ci-funnel-labels">
+      <div class="ci-funnel-label">
+        <div class="ci-funnel-pct">100%</div>
+        <div class="ci-funnel-name">Impressions</div>
+        <div class="ci-funnel-desc">Times your restaurant appeared in customer search &amp; discovery results</div>
+      </div>
+      <div class="ci-funnel-label">
+        <div class="ci-funnel-drop">▼ −35 pp</div>
+        <div class="ci-funnel-pct">65%</div>
+        <div class="ci-funnel-name">Menu views</div>
+        <div class="ci-funnel-desc">Customers who tapped through and browsed your menu</div>
+      </div>
+      <div class="ci-funnel-label">
+        <div class="ci-funnel-drop">▼ −41 pp</div>
+        <div class="ci-funnel-pct">24%</div>
+        <div class="ci-funnel-name">Add to cart</div>
+        <div class="ci-funnel-desc">Customers who added at least one item to cart, indicating purchase intent</div>
+      </div>
+      <div class="ci-funnel-label">
+        <div class="ci-funnel-drop">▼ −12 pp</div>
+        <div class="ci-funnel-pct">12%</div>
+        <div class="ci-funnel-name">Completed orders</div>
+        <div class="ci-funnel-desc">Customers who completed checkout — successful transactions</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-order-freq" data-path="/analytics/customer/order-frequency" style="scroll-margin-top:16px">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Customer order frequency</div><div class="sp-sec-sub">Distribution of customers by number of orders placed in the selected period</div></div>
+    </div>
+    <div class="sp-sec-right">
+      <button class="sp-export-btn">Export</button>
+      <div class="oq-kv"><div class="oq-kv-val">2.4 <span style="font-size:14px">avg</span>${tag('12%','up')}</div><div class="oq-kv-lbl">Orders per customer</div></div>
+    </div>
+  </div>
+  <div class="sp-chart-wrap" style="height:240px"><canvas id="ci-chart-freq"></canvas></div>
+  <div class="sp-chart-footer"><span class="oq-date-lbl">12 Jan – 11 Feb</span></div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-reorder-rate" data-path="/analytics/customer/reorder-rate" style="scroll-margin-top:16px">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Reorder rate</div><div class="sp-sec-sub">Share of customers who placed more than 1 order within a 30-day window</div></div>
+      <div class="sp-tabs"><span class="sp-tab active">Overall</span><span class="sp-tab">New, retained, reactivated</span></div>
+    </div>
+    <div class="sp-sec-right">
+      <button class="sp-export-btn">Export</button>
+      <div class="oq-kv"><div class="oq-kv-val">34%${tag('5%','up')}</div><div class="oq-kv-lbl">30-day reorder rate</div></div>
+    </div>
+  </div>
+  <div class="sp-chart-wrap" style="height:240px"><canvas id="ci-chart-reorder"></canvas></div>
+  <div class="sp-chart-footer">
+    <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
+    <div class="sp-legend-item"><div class="sp-legend-dot"></div>Reorder rate: 12 Jan – 11 Feb</div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-impressions" data-path="/analytics/customer/impressions" style="scroll-margin-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+    <div><div class="sp-sec-title">Impressions &amp; CTR</div><div class="sp-sec-sub">How customers discover and interact with your restaurant on the Careem platform</div></div>
+    <div style="display:flex;align-items:center;gap:10px"><span class="oq-date-lbl">12 Jan – 11 Feb</span><button class="sp-export-btn">Export</button></div>
+  </div>
+  <div class="ci-kpi-row">
+    <div class="ci-kpi-card"><div class="ci-kpi-val">45,200${tag('12%','up')}</div><div class="ci-kpi-lbl">Total impressions</div><div class="ci-kpi-sub">Discovery + Search</div></div>
+    <div class="ci-kpi-card"><div class="ci-kpi-val">8.2%${tag('3%','down')}</div><div class="ci-kpi-lbl">CTR (Click-through rate)</div><div class="ci-kpi-sub">Impressions → Menu views</div></div>
+    <div class="ci-kpi-card"><div class="ci-kpi-val">24%${tag('5%','up')}</div><div class="ci-kpi-lbl">M2C (Menu-to-cart)</div><div class="ci-kpi-sub">Menu views → Add to cart</div></div>
+    <div class="ci-kpi-card"><div class="ci-kpi-val">12%${tag('2%','up')}</div><div class="ci-kpi-lbl">C2O (Cart-to-order)</div><div class="ci-kpi-sub">Cart → Completed order</div></div>
+  </div>
+  <div class="oq-two">
+    <div>
+      <div style="font-size:15px;font-weight:600;color:#232424;margin-bottom:16px">Impressions by source</div>
+      <div class="sp-donut-wrap" style="justify-content:flex-start">
+        <div class="sp-donut-chart" style="width:200px;height:200px"><canvas id="ci-chart-imp-donut"></canvas></div>
+        <div class="sp-donut-legend">
+          <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#336D65"></div>Discovery — 68%<div style="font-size:11px;color:#606161;padding-left:16px;margin-top:1px">Appeared in home feed &amp; recommendations</div></div>
+          <div class="sp-dl-item" style="margin-top:8px"><div class="sp-dl-dot" style="background:#9DC9C3"></div>Search — 32%<div style="font-size:11px;color:#606161;padding-left:16px;margin-top:1px">Appeared in customer search results</div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:15px;font-weight:600;color:#232424;margin-bottom:16px">Impressions trend</div>
+      <div class="sp-chart-wrap" style="height:200px"><canvas id="ci-chart-imp-line"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-discount-impact" data-path="/analytics/customer/discount-impact" style="scroll-margin-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+    <div><div class="sp-sec-title">Discount impact</div><div class="sp-sec-sub">Correlation between discount level and checkout-to-order conversion rate</div></div>
+    <div style="display:flex;align-items:center;gap:10px"><span class="oq-date-lbl">12 Jan – 11 Feb</span><button class="sp-export-btn">Export</button></div>
+  </div>
+  <div class="oq-two">
+    <div>
+      <div class="sp-chart-wrap" style="height:260px"><canvas id="ci-chart-disc"></canvas></div>
+      <div class="sp-chart-footer"><span class="oq-date-lbl">Discount level vs. conversion rate</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="ci-kpi-row" style="grid-template-columns:1fr 1fr;margin-bottom:0">
+        <div class="ci-kpi-card"><div class="ci-kpi-val" style="font-size:18px">15–20%${tag('8%','up')}</div><div class="ci-kpi-lbl">Optimal discount range</div></div>
+        <div class="ci-kpi-card"><div class="ci-kpi-val" style="font-size:18px">22%</div><div class="ci-kpi-lbl">Peak conversion rate</div></div>
+      </div>
+      <div class="ci-disc-insight"><div class="ci-disc-icon">💡</div><div>Discounts between <strong>15–20%</strong> deliver the highest conversion lift. Going above 25% yields diminishing returns — customers may perceive lower food quality at deep discounts.</div></div>
+      <div class="ci-disc-insight"><div class="ci-disc-icon">📈</div><div>Your current average discount is <strong>11%</strong>. Increasing to 15% on slower meal times (Late night, Breakfast) could boost weekly orders by an estimated 8–12%.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sp-card-lg sp-anchor" id="sec-retention" data-path="/analytics/customer/retention" style="scroll-margin-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+    <div><div class="sp-sec-title">Retention &amp; CLTV</div><div class="sp-sec-sub">Monthly cohort retention and customer lifetime value analysis</div></div>
+    <div style="display:flex;align-items:center;gap:10px"><span class="oq-date-lbl">Jun–Nov 2024</span><button class="sp-export-btn">Export</button></div>
+  </div>
+  <div class="oq-tabs"><span class="oq-tab active">Monthly cohorts</span><span class="oq-tab">30-day rolling</span></div>
+  <table class="ci-cohort-table">
+    <thead><tr><th>Cohort</th><th>Customers</th><th>Month 0</th><th>Month 1</th><th>Month 2</th><th>Month 3</th><th>Month 4</th><th>Month 5</th></tr></thead>
+    <tbody>
+      <tr><td>Jun 2024</td><td>310</td><td class="ci-coh-4">100%</td><td class="ci-coh-3">42%</td><td class="ci-coh-2">29%</td><td class="ci-coh-1">21%</td><td class="ci-coh-1">17%</td><td class="ci-coh-0">14%</td></tr>
+      <tr><td>Jul 2024</td><td>285</td><td class="ci-coh-4">100%</td><td class="ci-coh-3">39%</td><td class="ci-coh-2">26%</td><td class="ci-coh-1">19%</td><td class="ci-coh-1">15%</td><td class="ci-coh-empty">—</td></tr>
+      <tr><td>Aug 2024</td><td>342</td><td class="ci-coh-4">100%</td><td class="ci-coh-3">44%</td><td class="ci-coh-2">31%</td><td class="ci-coh-1">22%</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td></tr>
+      <tr><td>Sep 2024</td><td>298</td><td class="ci-coh-4">100%</td><td class="ci-coh-3">37%</td><td class="ci-coh-2">24%</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td></tr>
+      <tr><td>Oct 2024</td><td>356</td><td class="ci-coh-4">100%</td><td class="ci-coh-3">41%</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td></tr>
+      <tr><td>Nov 2024</td><td>412</td><td class="ci-coh-4">100%</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td><td class="ci-coh-empty">—</td></tr>
+    </tbody>
+  </table>
+  <div class="oq-hm-legend">
+    <div class="oq-hm-li"><div class="oq-hm-sw" style="background:#fff;border:1px solid #ddd"></div>&lt; 20%</div>
+    <div class="oq-hm-li"><div class="oq-hm-sw" style="background:#DCFAF5"></div>20–29%</div>
+    <div class="oq-hm-li"><div class="oq-hm-sw" style="background:#9DC9C3"></div>30–39%</div>
+    <div class="oq-hm-li"><div class="oq-hm-sw" style="background:#336D65"></div>40–44%</div>
+    <div class="oq-hm-li"><div class="oq-hm-sw" style="background:#00342C"></div>100% (acquisition)</div>
+  </div>
+  <div class="ci-cltv-row">
+    <div class="ci-cltv-card"><div class="ci-cltv-title">Avg. CLTV</div><div class="ci-cltv-val">AED 245</div></div>
+    <div class="ci-cltv-card"><div class="ci-cltv-title">Avg. orders / customer</div><div class="ci-cltv-val">4.2</div></div>
+    <div class="ci-cltv-card"><div class="ci-cltv-title">Avg. customer lifespan</div><div class="ci-cltv-val">5.8 months</div></div>
+    <div class="ci-cltv-card"><div class="ci-cltv-title">Top 20% customer CLTV</div><div class="ci-cltv-val">AED 680</div></div>
+  </div>
+</div>
+
+</div>`}
+
 const DATES=['12 Jan','15 Jan','18 Jan','21 Jan','24 Jan','27 Jan','30 Jan','3 Feb','6 Feb','11 Feb'];
 const LINE_D=[11,10.2,2.5,1.9,2.2,2.1,1.7,2.3,2.2,1.8];
 
@@ -711,6 +1062,24 @@ function initOpsCharts(){
   const mkDonut=(id,data,colors,lbls)=>{const el=document.getElementById(id);if(!el)return;chartInstances[id]=new Chart(el.getContext('2d'),{type:'doughnut',data:{datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${lbls[i.dataIndex]}: ${i.raw}%`}}}}})};
   mkDonut('oq-chart-cancel-donut',[32,31,28],['#336D65','#00E784','#9DC9C3'],['Missing ingredient','Too many orders','Item out of stock']);
   mkDonut('oq-chart-defect-donut',[32,31,28,5],['#336D65','#00E784','#9DC9C3','#334768'],['Missing item','Food quality','Instructions not followed','Wrong item']);
+}
+
+function initCustCharts(){
+  const DATES=['12 Jan','15 Jan','18 Jan','21 Jan','24 Jan','27 Jan','30 Jan','3 Feb','6 Feb','11 Feb'];
+  const mkLine=(id,lbl,data,yMax,yMin=0)=>{const el=document.getElementById(id);if(!el)return;const ctx=el.getContext('2d');chartInstances[id]=new Chart(ctx,{type:'line',data:{labels:DATES,datasets:[{data,borderColor:'#001942',borderWidth:2,pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointRadius:4,pointHoverRadius:6,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,c.chart.height);g.addColorStop(0,'rgba(0,25,66,0.12)');g.addColorStop(1,'rgba(0,25,66,0.01)');return g},tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${lbl}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}},min:yMin,max:yMax}}}})};
+  const mkDonut=(id,data,colors,lbls)=>{const el=document.getElementById(id);if(!el)return;chartInstances[id]=new Chart(el.getContext('2d'),{type:'doughnut',data:{datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${lbls[i.dataIndex]}: ${i.raw}%`}}}}})};
+  mkDonut('ci-chart-breakdown',[42,29,29],['#00E784','#00342C','#9DC9C3'],['New','Retained','Reactivated']);
+  mkLine('ci-chart-customers','Customers',[11,10.5,2.5,2.2,2.1,2.0,1.8,2.3,2.4,1.9],14);
+  const ratEl=document.getElementById('ci-chart-ratings');
+  if(ratEl)chartInstances['ci-chart-ratings']=new Chart(ratEl.getContext('2d'),{type:'line',data:{labels:DATES,datasets:[{data:[4.5,3.8,4.1,1.3,1.2,1.1,1.0,1.2,1.3,1.0],borderColor:'#001942',borderWidth:2,pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointRadius:4,pointHoverRadius:6,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,c.chart.height);g.addColorStop(0,'rgba(0,25,66,0.12)');g.addColorStop(1,'rgba(0,25,66,0.01)');return g},tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`Rating: ${i.raw}★`}}},scales:{x:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12},callback:v=>`${v}★`},min:0,max:5.5}}}});
+  const freqEl=document.getElementById('ci-chart-freq');
+  if(freqEl)chartInstances['ci-chart-freq']=new Chart(freqEl.getContext('2d'),{type:'bar',data:{labels:['1 order','2 orders','3–5 orders','6–10 orders','10+ orders'],datasets:[{data:[38,26,22,9,5],backgroundColor:['#336D65','#008470','#9DC9C3','#DCFAF5','#F0F5F4'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${i.raw}% of customers`}}},scales:{x:{grid:{display:false},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12},callback:v=>`${v}%`},min:0,max:45}}}});
+  mkLine('ci-chart-reorder','Reorder rate %',[32,35,31,34,33,38,36,34,37,34],50,20);
+  mkDonut('ci-chart-imp-donut',[68,32],['#336D65','#9DC9C3'],['Discovery','Search']);
+  const impLblEl=document.getElementById('ci-chart-imp-line');
+  if(impLblEl)chartInstances['ci-chart-imp-line']=new Chart(impLblEl.getContext('2d'),{type:'line',data:{labels:DATES,datasets:[{label:'Impressions',data:[4200,3900,4800,5100,4600,5500,5300,4900,5200,5700],borderColor:'#336D65',borderWidth:2,backgroundColor:'rgba(51,109,101,0.08)',pointRadius:3,pointBackgroundColor:'#fff',pointBorderColor:'#336D65',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:11}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:11},callback:v=>v>=1000?`${v/1000}k`:v},min:3000,max:6500}}}});
+  const discEl=document.getElementById('ci-chart-disc');
+  if(discEl)chartInstances['ci-chart-disc']=new Chart(discEl.getContext('2d'),{type:'bar',data:{labels:['0%','1–5%','6–10%','11–15%','16–20%','21–25%','25%+'],datasets:[{label:'Conversion rate',data:[8,11,14,18,22,21,17],backgroundColor:(ctx)=>{const v=ctx.parsed.y;return v>=20?'#336D65':v>=16?'#008470':v>=12?'#9DC9C3':'#D4D6D6'},borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`Conversion: ${i.raw}%`,title:i=>`Discount level: ${i[0].label}`}}},scales:{x:{grid:{display:false},ticks:{color:'#5C5E5E',font:{size:12}},title:{display:true,text:'Discount level',color:'#606161',font:{size:11}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12},callback:v=>`${v}%`},min:0,max:28,title:{display:true,text:'Conversion rate',color:'#606161',font:{size:11}}}}}});
 }
 
 function initScrollSpy(){
