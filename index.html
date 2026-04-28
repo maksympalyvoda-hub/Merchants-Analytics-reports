@@ -188,8 +188,10 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .cmp-reset:hover{background:#F0F5F4}
 .cmp-apply{background:#00342C;color:#00E784;border:1px solid #00342C;border-radius:8px;padding:5px 17px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);transition:opacity .15s}
 .cmp-apply:hover{opacity:0.88}
+.sp-legend-right{display:flex;gap:16px;align-items:center}
 .sp-legend-item{display:flex;align-items:center;gap:8px;font-size:14px;color:#5C5E5E}
 .sp-legend-dot{width:8px;height:8px;border-radius:50%;background:#001942;flex-shrink:0}
+.sp-legend-dash{width:18px;height:0;border-top:2px dashed #9DC9C3;flex-shrink:0}
 .sp-tbl-wrap{overflow:hidden;border-radius:4px}
 .sp-tbl{width:100%;border-collapse:collapse}
 .sp-tbl th{background:#F0F5F4;padding:12px 16px;font-size:14px;font-weight:600;color:#434545;cursor:pointer;user-select:none;white-space:nowrap}
@@ -3823,32 +3825,76 @@ document.addEventListener('click',function(e){
 
 go('/analytics/sales/orders-sales');
 
-// Compare dropdown
+// Compare dropdown — chart comparison logic
+function cmpShift(data){const s=Math.ceil(data.length/3);return[...data.slice(s),...data.slice(0,s)]}
+function cmpAddToChart(chart,label){
+  if(chart.config.type!=='line')return;
+  chart.data.datasets=chart.data.datasets.filter(d=>!d._cmp);
+  const p=chart.data.datasets[0];if(!p||!p.data)return;
+  chart.data.datasets.unshift({label,data:cmpShift([...p.data]),borderColor:'#9DC9C3',borderWidth:1.5,borderDash:[5,4],backgroundColor:'transparent',pointRadius:0,pointHoverRadius:4,pointBorderColor:'#9DC9C3',fill:false,tension:0.4,_cmp:true});
+  chart.update('none');
+}
+function cmpRemoveFromChart(chart){
+  const n=chart.data.datasets.length;
+  chart.data.datasets=chart.data.datasets.filter(d=>!d._cmp);
+  if(chart.data.datasets.length!==n)chart.update('none');
+}
 function cmpToggle(trigger){
   const wrap=trigger.closest('.cmp-wrap');
   const isOpen=wrap.classList.contains('open');
   document.querySelectorAll('.cmp-wrap.open').forEach(w=>w.classList.remove('open'));
   if(!isOpen)wrap.classList.add('open');
 }
-function cmpSelect(item){
-  const menu=item.closest('.cmp-menu');
-  menu.querySelectorAll('.cmp-item').forEach(i=>i.classList.remove('selected'));
-  item.classList.add('selected');
-}
+function cmpSelect(item){item.closest('.cmp-menu').querySelectorAll('.cmp-item').forEach(i=>i.classList.remove('selected'));item.classList.add('selected')}
 function cmpReset(btn){
   const wrap=btn.closest('.cmp-wrap');
   wrap.querySelectorAll('.cmp-item').forEach(i=>i.classList.remove('selected'));
   wrap.querySelector('.cmp-label').textContent='Compare to: None';
   wrap.classList.remove('open');
+  const footer=wrap.closest('.sp-chart-footer');
+  const section=footer&&footer.parentElement;
+  if(section){
+    section.querySelectorAll('canvas').forEach(c=>{const ch=chartInstances[c.id];if(ch)cmpRemoveFromChart(ch)});
+    const cl=footer.querySelector('.sp-legend-item-cmp');if(cl)cl.remove();
+    const cp=section.querySelector('.sp-compared');if(cp)cp.textContent='';
+  }
 }
 function cmpApply(btn){
   const wrap=btn.closest('.cmp-wrap');
   const sel=wrap.querySelector('.cmp-item.selected');
-  wrap.querySelector('.cmp-label').textContent=sel?'Compare to: '+sel.dataset.label:'Compare to: None';
+  const label=sel?sel.dataset.label:null;
+  wrap.querySelector('.cmp-label').textContent=label?'Compare to: '+label:'Compare to: None';
   wrap.classList.remove('open');
+  const footer=wrap.closest('.sp-chart-footer');
+  const section=footer&&footer.parentElement;
+  if(!section)return;
+  // Update all line charts in the section
+  section.querySelectorAll('canvas').forEach(c=>{
+    const ch=chartInstances[c.id];
+    if(ch){label?cmpAddToChart(ch,label):cmpRemoveFromChart(ch)}
+  });
+  // Update legend
+  const oldCl=footer.querySelector('.sp-legend-item-cmp');if(oldCl)oldCl.remove();
+  if(label){
+    const legGroup=footer.querySelector('.sp-legend-right');
+    if(legGroup){
+      const cmpItem=document.createElement('div');
+      cmpItem.className='sp-legend-item sp-legend-item-cmp';
+      cmpItem.innerHTML=`<div class="sp-legend-dash"></div>${label}`;
+      legGroup.insertBefore(cmpItem,legGroup.firstChild);
+    }
+  }
+  // Update sp-compared header text
+  const cp=section.querySelector('.sp-compared');
+  if(cp)cp.textContent=label?'Compared to: '+label:'';
 }
 document.addEventListener('click',e=>{
   if(!e.target.closest('.cmp-wrap'))document.querySelectorAll('.cmp-wrap.open').forEach(w=>w.classList.remove('open'));
+});
+// Wrap all footer legend items in a .sp-legend-right group for grouped layout
+document.querySelectorAll('.sp-chart-footer .sp-legend-item').forEach(item=>{
+  const g=document.createElement('div');g.className='sp-legend-right';
+  item.parentNode.insertBefore(g,item);g.appendChild(item);
 });
 </script>
 </body>
