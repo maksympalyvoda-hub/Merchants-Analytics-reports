@@ -130,6 +130,41 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sum-sub svg{flex-shrink:0;color:#606161}
 .sp-cards{display:flex;gap:16px}
 .sp-card{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:16px;flex:1;min-width:0}
+/* Outlet breakdown card */
+.ob-tbl{width:100%;border-collapse:collapse;margin-top:10px}
+.ob-th{font-size:10px;font-weight:700;color:#8A9099;text-transform:uppercase;letter-spacing:.04em;padding:0 3px 5px;white-space:nowrap}
+.ob-th:first-child{text-align:left;padding-left:0;width:40%}
+.ob-th:not(:first-child){text-align:right}
+.ob-td{font-size:12px;color:#202121;padding:5px 3px;border-top:1px solid #F3F5F5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ob-td:first-child{text-align:left;padding-left:0;color:#434545;max-width:0}
+.ob-td:not(:first-child){text-align:right;font-weight:600}
+.ob-nm{font-size:12px;color:#434545;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:85px}
+.ob-cta{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid #F3F5F5;font-size:12px;font-weight:600;color:#008470;cursor:pointer;transition:color .12s}
+.ob-cta:hover{color:#006B5A}
+/* Outlet modal */
+.ob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:600;align-items:center;justify-content:center}
+.ob-overlay.open{display:flex}
+.ob-modal{background:#fff;border-radius:12px;box-shadow:0 24px 64px rgba(0,0,0,.18);width:min(900px,92vw);max-height:82vh;display:flex;flex-direction:column;overflow:hidden}
+.ob-mhdr{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 14px;border-bottom:1px solid #F0F5F4;flex-shrink:0}
+.ob-mtitle{font-size:18px;font-weight:600;color:#202121}
+.ob-mhdr-r{display:flex;align-items:center;gap:10px}
+.ob-mclose{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;color:#606161;border:none;background:none;transition:background .12s;font-size:18px;line-height:1}
+.ob-mclose:hover{background:#F3F5F5;color:#202121}
+.ob-msummary{display:flex;gap:24px;padding:12px 24px;background:#FAFBFB;border-bottom:1px solid #F0F5F4;flex-shrink:0}
+.ob-mstat{display:flex;flex-direction:column;gap:1px}
+.ob-mstat-v{font-size:16px;font-weight:700;color:#202121}
+.ob-mstat-l{font-size:11px;color:#8A9099;text-transform:uppercase;letter-spacing:.04em}
+.ob-mbody{overflow-y:auto;flex:1}
+.ob-mtbl{width:100%;border-collapse:collapse}
+.ob-mth{background:#F8FAFA;padding:10px 16px;font-size:11px;font-weight:700;color:#5C5E5E;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;text-align:right;border-bottom:1px solid #EAECED;position:sticky;top:0}
+.ob-mth:first-child{text-align:left}
+.ob-mtd{padding:11px 16px;border-bottom:1px solid #F3F5F5;font-size:13px;color:#202121;text-align:right;white-space:nowrap;vertical-align:middle}
+.ob-mtd:first-child{text-align:left}
+.ob-mnm{font-weight:600;color:#202121;font-size:13px}
+.ob-msub{font-size:11px;color:#8A9099;margin-top:1px}
+.ob-bar-bg{width:56px;height:5px;background:#EEF0F0;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:6px}
+.ob-bar-fg{height:100%;background:#008470;border-radius:3px}
+.ob-mfoot{padding:12px 24px;border-top:1px solid #F0F5F4;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;font-size:12px;color:#8A9099}
 .sp-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .sp-card-title{font-size:14px;font-weight:600;color:#202121}
 .sp-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
@@ -1059,6 +1094,7 @@ function buildSalesPerf(){return`<div class="sp-page">
     <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">100</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval">820</span><span class="sp-slbl">Yesterday</span></div></div></div>
     <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Gross sales</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 7,000</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 6,360</span><span class="sp-slbl">Yesterday</span></div></div></div>
     <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Avg. order value</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 43</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 39</span><span class="sp-slbl">Yesterday</span></div></div></div>
+    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Outlet breakdown</span>${tag('11','up')}</div><table class="ob-tbl"><thead><tr><th class="ob-th">Outlet</th><th class="ob-th">Orders</th><th class="ob-th">Sales</th><th class="ob-th">Avg</th></tr></thead><tbody><tr><td class="ob-td"><span class="ob-nm">KFC JBR</span></td><td class="ob-td">4.0k</td><td class="ob-td">40k</td><td class="ob-td">10</td></tr><tr><td class="ob-td"><span class="ob-nm">KFC DIFC</span></td><td class="ob-td">370</td><td class="ob-td">2.4k</td><td class="ob-td">6</td></tr><tr><td class="ob-td"><span class="ob-nm">Popeyes DM</span></td><td class="ob-td">220</td><td class="ob-td">2.2k</td><td class="ob-td">10</td></tr></tbody></table><div class="ob-cta" onclick="obOpenModal()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> View all 11 outlets</div></div>
   </div>
 </div>
 
@@ -3980,6 +4016,88 @@ document.querySelectorAll('.sp-chart-footer .sp-legend-item').forEach(item=>{
   const g=document.createElement('div');g.className='sp-legend-right';
   item.parentNode.insertBefore(g,item);g.appendChild(item);
 });
+</script>
+<!-- Outlet breakdown modal -->
+<div class="ob-overlay" id="ob-overlay" onclick="obBgClick(event)">
+  <div class="ob-modal" id="ob-modal">
+    <div class="ob-mhdr">
+      <span class="ob-mtitle">Outlet breakdown</span>
+      <div class="ob-mhdr-r">
+        <button class="sp-export-btn" onclick="obExport()">Export</button>
+        <button class="ob-mclose" onclick="obCloseModal()" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="ob-msummary" id="ob-msummary"></div>
+    <div class="ob-mbody">
+      <table class="ob-mtbl">
+        <thead><tr>
+          <th class="ob-mth" style="text-align:left">Outlet</th>
+          <th class="ob-mth">Orders</th>
+          <th class="ob-mth">Gross sales (AED)</th>
+          <th class="ob-mth">Avg order (AED)</th>
+          <th class="ob-mth">Contribution</th>
+          <th class="ob-mth">Trend</th>
+        </tr></thead>
+        <tbody id="ob-tbody"></tbody>
+      </table>
+    </div>
+    <div class="ob-mfoot">
+      <span id="ob-mfoot-lbl"></span>
+      <span style="color:#606161">Sorted by orders · Today's data</span>
+    </div>
+  </div>
+</div>
+<script>
+const OB_TRENDS={'kfc-marina':'+8%','kfc-jbr':'+12%','kfc-difc':'-3%','kfc-yas':'+5%','kfc-shj':'-7%','ph-marina':'+2%','ph-moe':'+15%','hrd-jbr':'+9%','herfy-d':'+1%','pop-dm':'+22%','pop-ad':'+6%'};
+function obFmtN(n){if(n>=10000)return(n/1000).toFixed(0)+'k';if(n>=1000)return(n/1000).toFixed(1)+'k';return n.toLocaleString()}
+function obOpenModal(){
+  const rows=SD.outlets.map(o=>({...o,...(OSS_METRICS[o.id]||{orders:50,gross:500,contrib:3})}));
+  rows.sort((a,b)=>b.orders-a.orders);
+  const totOrd=rows.reduce((s,r)=>s+r.orders,0);
+  const totGross=rows.reduce((s,r)=>s+r.gross,0);
+  const maxContrib=Math.max(...rows.map(r=>r.contrib));
+  // Summary bar
+  document.getElementById('ob-msummary').innerHTML=`
+    <div class="ob-mstat"><span class="ob-mstat-v">${rows.length}</span><span class="ob-mstat-l">Outlets</span></div>
+    <div class="ob-mstat"><span class="ob-mstat-v">${obFmtN(totOrd)}</span><span class="ob-mstat-l">Total orders</span></div>
+    <div class="ob-mstat"><span class="ob-mstat-v">AED ${obFmtN(totGross)}</span><span class="ob-mstat-l">Total gross sales</span></div>
+    <div class="ob-mstat"><span class="ob-mstat-v">AED ${Math.round(totGross/totOrd)}</span><span class="ob-mstat-l">Avg order value</span></div>`;
+  // Table rows
+  document.getElementById('ob-tbody').innerHTML=rows.map((o,i)=>{
+    const avg=Math.round(o.gross/o.orders);
+    const tr=OB_TRENDS[o.id]||'+0%';
+    const isUp=tr.startsWith('+');
+    const barW=Math.round((o.contrib/maxContrib)*100);
+    return`<tr>
+      <td class="ob-mtd" style="text-align:left">
+        <div class="ob-mnm">${o.name}</div>
+        <div class="ob-msub">${o.code} · ${o.area}</div>
+      </td>
+      <td class="ob-mtd" style="font-weight:600">${o.orders.toLocaleString()}</td>
+      <td class="ob-mtd" style="font-weight:600">${o.gross.toLocaleString()}</td>
+      <td class="ob-mtd">${avg}</td>
+      <td class="ob-mtd">
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px">
+          <div class="ob-bar-bg"><div class="ob-bar-fg" style="width:${barW}%"></div></div>
+          <span style="font-weight:600;min-width:28px;text-align:right">${o.contrib}%</span>
+        </div>
+      </td>
+      <td class="ob-mtd"><span class="sp-tag ${isUp?'up':'down'}" style="font-size:11px;padding:3px 6px">${isUp?'↑':'↓'} ${tr.replace(/[+-]/,'')}</span></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('ob-mfoot-lbl').textContent=`${rows.length} outlets · Updated as of 16:00`;
+  document.getElementById('ob-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function obCloseModal(){
+  document.getElementById('ob-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function obBgClick(e){if(e.target===document.getElementById('ob-overlay'))obCloseModal()}
+function obExport(){console.log('Export outlets')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')obCloseModal()});
 </script>
 <!-- Date range picker overlay (reuses rp-cal-* styles) -->
 <div id="dr-cal-dd" style="display:none;position:fixed;z-index:500;background:#fff;border:1.5px solid #E0E3E3;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.14);overflow:hidden">
