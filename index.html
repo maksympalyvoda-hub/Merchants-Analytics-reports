@@ -154,10 +154,14 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-seg{display:flex;background:#F0F5F4;border-radius:6px;padding:3px;align-self:flex-start}
 .sp-seg-item{padding:5px 14px;border-radius:4px;font-size:16px;font-weight:500;color:#606161;cursor:pointer;line-height:22px;transition:color .15s}
 .sp-seg-item.active{background:#fff;color:#282D33;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.10)}
-.sp-range{display:flex;border:1px solid #F0F5F4;border-radius:4px;height:38px;overflow:visible}
-.sp-range-item{padding:0 16px;font-size:14px;color:#202121;cursor:pointer;border-right:1px solid #F0F5F4;display:flex;align-items:center;white-space:nowrap}
-.sp-range-item:last-child{border-right:none}
-.sp-range-item.active{background:#DCFAF5;color:#008470;font-weight:600;border:1px solid #008470;border-radius:4px;margin:-1px}
+.sp-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sp-range-item{height:32px;padding:4px 12px;border-radius:8px;font-size:14px;font-weight:600;color:#232424;cursor:pointer;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.sp-range-item.active{background:#00342C;border-color:#00342C;color:#fff}
+.dr-input{height:32px;padding:4px 10px;border-radius:8px;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;gap:2px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.dr-input:hover{border-color:#9DC9C3}
+.dr-input-text{font-size:14px;font-weight:600;color:#7E8080}
+.dr-input-sep{display:flex;align-items:center;color:#9DC9C3;padding:0 2px}
+.dr-input-ico{display:flex;align-items:center;color:#606161;margin-left:6px;opacity:0.8}
 .sp-compared{font-size:12px;color:#434545}
 .sp-tabs{display:flex;gap:20px}
 .sp-tab{padding:8px 0;font-size:13px;font-weight:500;color:#606161;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s}
@@ -349,10 +353,9 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 /* Top controls bar */
 .oc-ctrl-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 /* Date range */
-.oc-range{display:flex;border:1px solid #F0F5F4;border-radius:4px;height:38px}
-.oc-range-item{padding:0 14px;font-size:13px;color:#202121;cursor:pointer;border-right:1px solid #F0F5F4;display:flex;align-items:center;white-space:nowrap}
-.oc-range-item:last-child{border-right:none}
-.oc-range-item.active{background:#DCFAF5;color:#008470;font-weight:600;border:1px solid #008470;border-radius:4px;margin:-1px}
+.oc-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.oc-range-item{height:32px;padding:4px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#232424;cursor:pointer;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.oc-range-item.active{background:#00342C;border-color:#00342C;color:#fff}
 /* Business / Operations tabs */
 .oc-tabs{display:flex;border-bottom:1px solid #F0F5F4}
 .oc-tab{padding:8px 16px;font-size:13px;font-weight:500;color:#606161;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--font);border-top:none;border-left:none;border-right:none;background:none;transition:color .15s}
@@ -437,10 +440,9 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .ia-dl-btn:hover{background:#00493E}
 /* Date range */
 .ia-range-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.ia-range{display:flex;border:1px solid #F0F5F4;border-radius:4px;height:38px;overflow:visible}
-.ia-range-item{padding:0 16px;font-size:14px;color:#202121;cursor:pointer;border-right:1px solid #F0F5F4;display:flex;align-items:center;white-space:nowrap}
-.ia-range-item:last-child{border-right:none}
-.ia-range-item.active{background:#DCFAF5;color:#008470;font-weight:600;border:1px solid #008470;border-radius:4px;margin:-1px}
+.ia-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ia-range-item{height:32px;padding:4px 12px;border-radius:8px;font-size:14px;font-weight:600;color:#232424;cursor:pointer;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.ia-range-item.active{background:#00342C;border-color:#00342C;color:#fff}
 /* KPI cards */
 .ia-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .ia-kpi-card{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:16px}
@@ -998,7 +1000,7 @@ function buildSalesPerf(){return`<div class="sp-page">
 <div class="sp-card-lg sp-anchor" id="sec-orders-sales" data-path="/analytics/sales/orders-sales">
   <div class="sp-controls">
     <div class="sp-controls-left">
-      <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="sp-range-item" style="color:#7E8080">Start date → End date</div></div>
+      <div class="sp-range"><div class="sp-range-item">Today</div><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
       <span class="sp-compared">Compared to: Monday last week (12 Jan)</span>
     </div>
     <button class="sp-dl-btn">Download report</button>
@@ -1115,7 +1117,7 @@ function buildOpsQuality(){
   ];
   return`<div class="sp-page">
 <div class="oq-filter">
-  <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="sp-range-item" style="color:#7E8080">Start date → End date</div></div>
+  <div class="sp-range"><div class="sp-range-item">Today</div><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
   <button class="oq-dl-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6.5L7 9.5L10 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Download report</button>
 </div>
 <div class="sp-cards">
