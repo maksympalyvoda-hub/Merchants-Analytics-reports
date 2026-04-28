@@ -123,9 +123,9 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-page{display:flex;flex-direction:column;gap:20px}
 .sp-updated{font-size:12px;color:#434545;padding-bottom:4px}
 .sc-wrap{display:flex;flex-direction:column;gap:0}
-.sum-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.sum-hdr{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
 .sum-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
-.sum-updated{font-size:12px;color:#8A9099;align-self:center}
+.sum-updated{font-size:13px;color:#606161;line-height:18px}
 .sum-sub{font-size:16px;color:#5C5E5E;line-height:24px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .sum-sub svg{flex-shrink:0}
 .sp-cards{display:flex;gap:16px}
@@ -148,8 +148,10 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-sec-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
 .sp-sec-sub{font-size:16px;color:#5C5E5E;line-height:24px}
 .sp-sec-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;align-self:stretch;gap:12px}
-.sp-export-btn{padding:5px 16px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:flex;align-items:center;gap:6px}
-.sp-dl-btn{padding:5px 17px;border:1px solid #00E784;background:#00E784;color:#282D33;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:flex;align-items:center}
+.sp-export-btn{padding:5px 14px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font);white-space:nowrap;transition:background .12s,border-color .12s}
+.sp-export-btn:hover{background:#F5F7F9;border-color:#6E7E8C}
+.sp-dl-btn{padding:12px 16px;border:1px solid #00342C;background:#00342C;color:#00E784;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:var(--font);white-space:nowrap;transition:opacity .15s}
+.sp-dl-btn:hover{opacity:0.85}
 .sp-stat{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .sp-stat-row{display:flex;align-items:center;gap:10px}
 .sp-stat-val{font-size:20px;font-weight:600;color:#202121}
@@ -239,7 +241,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 
 /* ── Operations Quality ── */
 .oq-filter{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.oq-dl-btn{padding:0 20px;height:38px;background:#00342C;color:#00E784;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.oq-dl-btn{padding:12px 16px;height:auto;background:#00342C;color:#00E784;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;border:1px solid #00342C;font-family:var(--font);display:inline-flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;transition:opacity .15s}
+.oq-dl-btn:hover{opacity:0.85}
 .oq-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .oq-with-panel{display:grid;grid-template-columns:1fr 260px;gap:20px;align-items:start}
 .oq-red{color:#B81919!important;font-weight:600}
@@ -410,8 +413,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .oc-chart-title{font-size:16px;font-weight:600;color:#282D33}
 .oc-chart-sub{font-size:13px;color:#5C5E5E;margin-top:2px}
 .oc-chart-controls{display:flex;align-items:center;gap:8px}
-.oc-export-btn{padding:6px 14px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:var(--font)}
-.oc-export-btn:hover{background:#F5F5F5}
+.oc-export-btn{padding:5px 14px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:inline-flex;align-items:center;gap:6px;font-family:var(--font);white-space:nowrap;transition:background .12s,border-color .12s}
+.oc-export-btn:hover{background:#F5F7F9;border-color:#6E7E8C}
 /* Metric tabs on chart card */
 .oc-metric-tabs{display:flex;gap:0;border-bottom:1px solid #F0F5F4;margin-bottom:16px;margin-top:12px}
 .oc-metric-tab{padding:8px 12px;font-size:13px;font-weight:500;color:#606161;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--font);border-top:none;border-left:none;border-right:none;background:none;transition:color .15s}
@@ -480,7 +483,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .ia-page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .ia-page-title{font-size:24px;font-weight:600;color:#232424;line-height:32px}
 .ia-updated{font-size:12px;color:#434545}
-.ia-dl-btn{padding:0 20px;height:38px;background:#00342C;color:#00E784;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ia-dl-btn{padding:12px 16px;height:auto;background:#00342C;color:#00E784;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;border:1px solid #00342C;font-family:var(--font);display:inline-flex;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap;transition:opacity .15s}
+.ia-dl-btn:hover{opacity:0.85}
 .ia-dl-btn:hover{background:#00493E}
 /* Date range */
 .ia-range-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
@@ -518,8 +522,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .ia-cat-pill{padding:6px 14px;border:1px solid #D4D6D6;border-radius:100px;font-size:13px;font-weight:500;color:#44505C;cursor:pointer;background:#fff;font-family:var(--font);transition:all .15s;white-space:nowrap}
 .ia-cat-pill:hover{border-color:#008470;color:#008470}
 .ia-cat-pill.active{border-color:#008470;background:#008470;color:#fff}
-.ia-export-btn{margin-left:auto;padding:7px 16px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;font-family:var(--font)}
-.ia-export-btn:hover{background:#F5F5F5}
+.ia-export-btn{margin-left:auto;padding:5px 14px;border:1px solid #899BAD;background:#fff;color:#44505C;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;height:32px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-family:var(--font);transition:background .12s,border-color .12s}
+.ia-export-btn:hover{background:#F5F7F9;border-color:#6E7E8C}
 .ia-tbl-wrap{overflow-x:auto}
 .ia-tbl{width:100%;border-collapse:collapse;min-width:1040px}
 .ia-tbl thead th{background:#F0F5F4;padding:11px 14px;font-size:12px;font-weight:700;color:#434545;white-space:nowrap;cursor:pointer;user-select:none;letter-spacing:.02em;text-transform:uppercase}
@@ -1022,7 +1026,10 @@ function go(path){
     const r=flatFind(path);
     body.innerHTML=`<div class="pg-empty"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="32" height="32" rx="6" stroke="#D4D6D6" stroke-width="2"/><path d="M12 20h16M12 26h10" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/><path d="M12 14h16" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/></svg><span class="pg-empty-title">${r.lbl}</span><span class="pg-empty-sub">Content coming soon</span></div>`;
   }
+  setTimeout(normalizeExportBtns,50);
 }
+const _EXP_ICO=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1.5v5.5M3.5 5L6 7.5 8.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10h9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+function normalizeExportBtns(){document.querySelectorAll('.sp-export-btn,.oc-export-btn,.ia-export-btn').forEach(btn=>{const t=btn.textContent.trim();if(t.startsWith('Export'))btn.innerHTML='Export '+_EXP_ICO})}
 function destroyCharts(){Object.values(chartInstances).forEach(c=>{try{c.destroy()}catch(e){}});chartInstances={}}
 function toggleL1(id){if(openL1===id){openL1=null;openL2=null}else{openL1=id;openL2=null}render()}
 function toggleL2(id){openL2=openL2===id?null:id;render()}
@@ -1099,7 +1106,7 @@ function buildSalesPerf(){return`<div class="sp-page">
       <div><div class="sp-sec-title">Gross sales breakdown</div><div class="sp-sec-sub">The distribution of Gross sales by customer zones and menu items.</div></div>
       <div class="sp-tabs"><span class="sp-tab">By menu item</span><span class="sp-tab active">By customer zone</span><span class="sp-tab">By outlet</span></div>
     </div>
-    <div class="sp-sec-right"><button class="sp-export-btn">Export <span style="font-size:11px">↓</span></button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
+    <div class="sp-sec-right"><button class="sp-export-btn">Export</button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
   </div>
   <div class="sp-tbl-wrap"><table class="sp-tbl">
     <thead><tr><th>Customer zone <span class="sp-sort">▲▼</span></th><th>Orders <span class="sp-sort">▲▼</span></th><th>Gross sales (AED) <span class="sp-sort">▲▼</span></th><th>Order contribution <span class="sp-sort">▲▼</span></th></tr></thead>
@@ -2013,7 +2020,7 @@ function buildHeatmapCard(opts){
         <div class="hm-title">${title}</div>
         <div class="hm-sub">${sub}</div>
       </div>
-      <button class="sp-export-btn" onclick="hmExport('${metricKey}')">Export ↓</button>
+      <button class="sp-export-btn" onclick="hmExport('${metricKey}')">Export</button>
     </div>
     <div class="hm-tabs">${tabs}</div>
     <div id="hm-table-wrap">${hmBuildTable(metricKey)}</div>
