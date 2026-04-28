@@ -123,11 +123,11 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-page{display:flex;flex-direction:column;gap:20px}
 .sp-updated{font-size:12px;color:#434545;padding-bottom:4px}
 .sc-wrap{display:flex;flex-direction:column;gap:0}
-.sc-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
-.sc-title{font-size:18px;font-weight:700;color:#202121;letter-spacing:-0.3px}
-.sc-updated{font-size:12px;color:#8A9099}
-.sc-cmp-note{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:#8A9099;line-height:16px}
-.sc-cmp-note svg{flex-shrink:0;opacity:0.7}
+.sum-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.sum-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
+.sum-updated{font-size:12px;color:#8A9099;align-self:center}
+.sum-sub{font-size:14px;color:#5C5E5E;line-height:22px;margin-bottom:14px;display:flex;align-items:center;gap:5px}
+.sum-sub svg{flex-shrink:0;opacity:0.75}
 .sp-cards{display:flex;gap:16px}
 .sp-card{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:16px;flex:1;min-width:0}
 .sp-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -1035,18 +1035,18 @@ function tag(pct,dir){const u=dir==='up';return`<span class="sp-tag ${u?'up':'do
 
 function buildSalesPerf(){return`<div class="sp-page">
 <div class="sc-wrap">
-  <div class="sc-hdr">
-    <span class="sc-title">Today&#x2019;s summary</span>
-    <span class="sc-updated">Updated as of: 16:00</span>
+  <div class="sum-hdr">
+    <span class="sum-title">Today&#x2019;s summary</span>
+    <span class="sum-updated">Updated as of: 16:00</span>
   </div>
-  <div class="sp-cards">
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">100</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval">700</span><span class="sp-slbl">Last 7 days</span></div></div></div>
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Gross sales</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 7,000</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 85,000</span><span class="sp-slbl">Last 7 days</span></div></div></div>
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Avg. order value</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 43</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 46</span><span class="sp-slbl">Last 7 days</span></div></div></div>
-  </div>
-  <div class="sc-cmp-note">
+  <div class="sum-sub">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#9DC9C3" stroke-width="1.2"/><path d="M7 6.5v3.5" stroke="#9DC9C3" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="4.5" r="0.6" fill="#9DC9C3"/></svg>
     <span>% changes compared to previous Thursday (6 Jun) &middot; up to 16:00</span>
+  </div>
+  <div class="sp-cards">
+    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">100</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval">820</span><span class="sp-slbl">Yesterday</span></div></div></div>
+    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Gross sales</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 7,000</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 6,360</span><span class="sp-slbl">Yesterday</span></div></div></div>
+    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Avg. order value</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 43</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 39</span><span class="sp-slbl">Yesterday</span></div></div></div>
   </div>
 </div>
 
