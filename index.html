@@ -122,10 +122,15 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 /* ── Sales Performance ── */
 .sp-page{display:flex;flex-direction:column;gap:20px}
 .sp-updated{font-size:12px;color:#434545;padding-bottom:4px}
-.sc-wrap{display:flex;flex-direction:column;gap:0}
-.sum-hdr{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+.sc-wrap{display:flex;flex-direction:column;gap:0;background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.sum-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.sum-hdr-left{display:flex;flex-direction:column;gap:2px}
 .sum-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
 .sum-updated{font-size:13px;color:#606161;line-height:18px}
+.sum-filter{display:flex;gap:6px;margin-bottom:12px}
+.sum-fi{padding:5px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid #D4D6D6;background:#fff;color:#5C5E5E;font-family:var(--font);transition:background .15s,border-color .15s,color .15s;line-height:20px}
+.sum-fi:hover{border-color:#9DC9C3;color:#202121}
+.sum-fi.active{background:#00342C;border-color:#00342C;color:#00E784;font-weight:600}
 .sum-sub{font-size:14px;font-weight:400;color:#232424;line-height:20px;margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#D4D6D6;border:1px solid #D4D6D6;border-radius:4px;padding:8px 16px}
 .sum-sub svg{flex-shrink:0;color:#44505C}
 .sp-cards{display:flex;gap:16px;align-items:flex-start}
@@ -1074,6 +1079,7 @@ function go(path){
   }
   setTimeout(normalizeExportBtns,50);
   setTimeout(gsRender,0);
+  setTimeout(()=>sumFilter('today'),0);
 }
 const _EXP_ICO=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1.5v5.5M3.5 5L6 7.5 8.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10h9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 function normalizeExportBtns(){document.querySelectorAll('.sp-export-btn,.oc-export-btn,.ia-export-btn').forEach(btn=>{const t=btn.textContent.trim();if(t.startsWith('Export'))btn.innerHTML='Export '+_EXP_ICO})}
@@ -1086,23 +1092,55 @@ function mkL1(item){const isLeaf=!item.children,selfActive=item.path===activePat
 function render(){document.getElementById('nav-root').innerHTML=NAV.map(s=>`<div class="nav-section"><span class="sec-title">${s.title}</span><div class="l1-list">${s.items.map(mkL1).join('')}</div></div>`).join('')}
 
 function tag(pct,dir){const u=dir==='up';return`<span class="sp-tag ${u?'up':'down'}">${I[u?'arrowUp':'arrowDown']} ${pct}</span>`}
+const SUM_DATA={
+  today:{
+    strip:'% changes compared to previous Thursday (6 Jun) · up to 16:00',
+    updated:'Updated as of: 16:00',
+    cards:[
+      {title:'Orders',val:'100',lbl:'Today',sval:'820',slbl:'Yesterday',pct:'10%',dir:'up'},
+      {title:'Gross sales',val:'<span style="font-size:14px">AED</span> 7,000',lbl:'Today',sval:'<span class="sp-sunit">AED</span> 6,360',slbl:'Yesterday',pct:'10%',dir:'up'},
+      {title:'Avg. order value',val:'<span style="font-size:14px">AED</span> 43',lbl:'Today',sval:'<span class="sp-sunit">AED</span> 39',slbl:'Yesterday',pct:'10%',dir:'up'}
+    ],
+    ob:[{name:'KFC JBR',orders:'4.0k',sales:'40k',avg:'10'},{name:'KFC DIFC',orders:'370',sales:'2.4k',avg:'6'}]
+  },
+  week:{
+    strip:'% changes compared to previous week (21 Apr – 27 Apr)',
+    updated:'Updated as of: 16:00',
+    cards:[
+      {title:'Orders',val:'1,240',lbl:'This week',sval:'1,130',slbl:'Last week',pct:'10%',dir:'up'},
+      {title:'Gross sales',val:'<span style="font-size:14px">AED</span> 52k',lbl:'This week',sval:'<span class="sp-sunit">AED</span> 47.3k',slbl:'Last week',pct:'10%',dir:'up'},
+      {title:'Avg. order value',val:'<span style="font-size:14px">AED</span> 42',lbl:'This week',sval:'<span class="sp-sunit">AED</span> 39',slbl:'Last week',pct:'8%',dir:'up'}
+    ],
+    ob:[{name:'KFC JBR',orders:'4.0k',sales:'40k',avg:'10'},{name:'KFC DIFC',orders:'1.8k',sales:'11.5k',avg:'6'}]
+  }
+};
+function sumFilter(period){
+  document.querySelectorAll('.sum-fi').forEach(el=>el.classList.toggle('active',el.dataset.period===period));
+  const d=SUM_DATA[period];
+  const strip=document.getElementById('sum-strip-text');if(strip)strip.textContent=d.strip;
+  const upd=document.getElementById('sum-updated');if(upd)upd.textContent=d.updated;
+  const wrap=document.getElementById('sum-cards');if(!wrap)return;
+  const obCard=`<div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Outlet breakdown</span><button class="ob-view-all" onclick="obOpenModal()">View all <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><table class="ob-tbl"><thead><tr><th class="ob-th">Outlet</th><th class="ob-th">Orders</th><th class="ob-th">Sales</th><th class="ob-th">Avg</th></tr></thead><tbody>${d.ob.map(r=>`<tr><td class="ob-td"><span class="ob-nm">${r.name}</span></td><td class="ob-td">${r.orders}</td><td class="ob-td">${r.sales}</td><td class="ob-td">${r.avg}</td></tr>`).join('')}</tbody></table></div>`;
+  wrap.innerHTML=d.cards.map(c=>`<div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">${c.title}</span>${tag(c.pct,c.dir)}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">${c.val}</span><span class="sp-lbl">${c.lbl}</span></div><div class="sp-card-sec"><span class="sp-sval">${c.sval}</span><span class="sp-slbl">${c.slbl}</span></div></div></div>`).join('')+obCard;
+}
 
 function buildSalesPerf(){return`<div class="sp-page">
 <div class="sc-wrap">
   <div class="sum-hdr">
-    <span class="sum-title">Today&#x2019;s summary</span>
-    <span class="sum-updated">Updated as of: 16:00</span>
+    <div class="sum-hdr-left">
+      <span class="sum-title">Today&#x2019;s summary</span>
+      <span class="sum-updated" id="sum-updated">Updated as of: 16:00</span>
+    </div>
+  </div>
+  <div class="sum-filter">
+    <button class="sum-fi active" data-period="today" onclick="sumFilter('today')">Today</button>
+    <button class="sum-fi" data-period="week" onclick="sumFilter('week')">This week</button>
   </div>
   <div class="sum-sub">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="5.5" r="0.75" fill="currentColor"/></svg>
-    <span>% changes compared to previous Thursday (6 Jun) &middot; up to 16:00</span>
+    <span id="sum-strip-text">% changes compared to previous Thursday (6 Jun) &middot; up to 16:00</span>
   </div>
-  <div class="sp-cards">
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">100</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval">820</span><span class="sp-slbl">Yesterday</span></div></div></div>
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Gross sales</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 7,000</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 6,360</span><span class="sp-slbl">Yesterday</span></div></div></div>
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Avg. order value</span>${tag('10%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val"><span style="font-size:14px">AED</span> 43</span><span class="sp-lbl">Today</span></div><div class="sp-card-sec"><span class="sp-sval"><span class="sp-sunit">AED</span> 39</span><span class="sp-slbl">Yesterday</span></div></div></div>
-    <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Outlet breakdown</span><button class="ob-view-all" onclick="obOpenModal()">View all <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><table class="ob-tbl"><thead><tr><th class="ob-th">Outlet</th><th class="ob-th">Orders</th><th class="ob-th">Sales</th><th class="ob-th">Avg</th></tr></thead><tbody><tr><td class="ob-td"><span class="ob-nm">KFC JBR</span></td><td class="ob-td">4.0k</td><td class="ob-td">40k</td><td class="ob-td">10</td></tr><tr><td class="ob-td"><span class="ob-nm">KFC DIFC</span></td><td class="ob-td">370</td><td class="ob-td">2.4k</td><td class="ob-td">6</td></tr></tbody></table></div>
-  </div>
+  <div class="sp-cards" id="sum-cards"></div>
 </div>
 
 <div class="sp-card-lg sp-anchor" id="sec-orders-sales" data-path="/analytics/sales/orders-sales">
