@@ -427,6 +427,10 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .hm-peak{display:block;font-size:9px;font-weight:700;background:rgba(255,255,255,0.25);border-radius:2px;padding:1px 4px;margin-top:2px;letter-spacing:.02em}
 .hm-g4 .hm-peak{background:rgba(0,231,132,0.25);color:#00E784}
 .hm-r4 .hm-peak{background:rgba(255,255,255,0.25);color:#fff}
+/* Closed cell state */
+.hm-closed{background:#F3F5F5;border:1px solid #E8ECEC;color:#C0C3C3;cursor:default}
+.hm-closed:hover{transform:none!important;box-shadow:none!important;z-index:auto!important}
+.hm-closed .hm-cell-v{font-size:16px;font-weight:300;color:#C0C3C3;line-height:1.6}
 /* Legend */
 .hm-legend{display:flex;align-items:center;gap:10px;padding-top:14px;flex-wrap:wrap}
 .hm-legend-lbl{font-size:11px;color:#A0A4A4}
@@ -1950,64 +1954,67 @@ const RP_PRESET_METRICS={
 // ═══════════════════════════════════════════════════
 
 const HM_DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const HM_SLOTS=['6 AM','8 AM','10 AM','12 PM','2 PM','4 PM','6 PM','8 PM','10 PM'];
-const HM_SLOT_FULL=['6–8 AM','8–10 AM','10 AM–12 PM','12–2 PM','2–4 PM','4–6 PM','6–8 PM','8–10 PM','10 PM–12 AM'];
-const HM_GROUPS=[{label:'Morning',span:3},{label:'Afternoon',span:3},{label:'Evening',span:3}];
+// 24h schedule — 12 slots of 2h each
+// Indices: 0=12AM 1=2AM 2=4AM 3=6AM 4=8AM 5=10AM 6=12PM 7=2PM 8=4PM 9=6PM 10=8PM 11=10PM
+// Mon–Fri open 8AM–10PM (indices 4–11); Sat–Sun open 10AM–10PM (indices 5–11); null = closed
+const HM_SLOTS=['12 AM','2 AM','4 AM','6 AM','8 AM','10 AM','12 PM','2 PM','4 PM','6 PM','8 PM','10 PM'];
+const HM_SLOT_FULL=['12–2 AM','2–4 AM','4–6 AM','6–8 AM','8–10 AM','10 AM–12 PM','12–2 PM','2–4 PM','4–6 PM','6–8 PM','8–10 PM','10 PM–12 AM'];
+const HM_GROUPS=[{label:'Night',span:3},{label:'Morning',span:3},{label:'Afternoon',span:3},{label:'Evening',span:3}];
 
 const HM_DATA={
   sales:[
-    [210,880,1050,2420,840,1310,2780,1060,310],
-    [225,940,1170,2490,930,1380,2920,1120,350],
-    [248,975,1240,2680,990,1470,3060,1180,375],
-    [268,1020,1290,2810,1040,1560,3220,1310,395],
-    [310,1190,1520,3280,1220,1830,3820,1540,465],
-    [350,1360,1710,3720,1380,2080,4260,1720,510],
-    [325,1270,1590,3490,1290,1930,4020,1620,485],
+    [null,null,null,null, 880,1050,2420, 840,1310,2780,1060, 310], // Mon
+    [null,null,null,null, 940,1170,2490, 930,1380,2920,1120, 350], // Tue
+    [null,null,null,null, 975,1240,2680, 990,1470,3060,1180, 375], // Wed
+    [null,null,null,null,1020,1290,2810,1040,1560,3220,1310, 395], // Thu
+    [null,null,null,null,1190,1520,3280,1220,1830,3820,1540, 465], // Fri
+    [null,null,null,null,null, 1710,3720,1380,2080,4260,1720, 510], // Sat
+    [null,null,null,null,null, 1590,3490,1290,1930,4020,1620, 485], // Sun
   ],
   orders:[
-    [7,28,37,79,28,43,89,36,11],
-    [7,30,39,83,31,46,95,38,12],
-    [8,32,41,88,33,48,100,40,12],
-    [9,34,43,93,35,52,107,43,13],
-    [10,39,50,109,40,60,127,51,15],
-    [11,45,57,123,46,69,141,57,17],
-    [10,42,53,116,43,64,134,54,16],
+    [null,null,null,null, 28, 37, 79, 28, 43, 89, 36, 11],
+    [null,null,null,null, 30, 39, 83, 31, 46, 95, 38, 12],
+    [null,null,null,null, 32, 41, 88, 33, 48,100, 40, 12],
+    [null,null,null,null, 34, 43, 93, 35, 52,107, 43, 13],
+    [null,null,null,null, 39, 50,109, 40, 60,127, 51, 15],
+    [null,null,null,null,null,  57,123, 46, 69,141, 57, 17],
+    [null,null,null,null,null,  53,116, 43, 64,134, 54, 16],
   ],
   aov:[
-    [30.0,31.4,28.4,30.6,30.0,30.5,31.2,29.4,28.2],
-    [32.1,31.3,30.0,30.0,30.0,30.0,30.7,29.5,29.2],
-    [31.0,30.5,30.2,30.5,30.0,30.6,30.6,29.5,31.3],
-    [29.8,30.0,30.0,30.2,29.7,30.0,30.1,30.5,30.4],
-    [31.0,30.5,30.4,30.1,30.5,30.5,30.1,30.2,31.0],
-    [31.8,30.2,30.0,30.2,30.0,30.1,30.2,30.2,30.0],
-    [32.5,30.2,30.0,30.1,30.0,30.2,30.0,30.0,30.3],
+    [null,null,null,null,31.4,28.4,30.6,30.0,30.5,31.2,29.4,28.2],
+    [null,null,null,null,31.3,30.0,30.0,30.0,30.0,30.7,29.5,29.2],
+    [null,null,null,null,30.5,30.2,30.5,30.0,30.6,30.6,29.5,31.3],
+    [null,null,null,null,30.0,30.0,30.2,29.7,30.0,30.1,30.5,30.4],
+    [null,null,null,null,30.5,30.4,30.1,30.5,30.5,30.1,30.2,31.0],
+    [null,null,null,null,null, 30.0,30.2,30.0,30.1,30.2,30.2,30.0],
+    [null,null,null,null,null, 30.0,30.1,30.0,30.2,30.0,30.0,30.3],
   ],
   cancel:[
-    [1.2,1.8,2.1,4.2,2.3,3.1,5.8,3.4,1.8],
-    [1.1,1.7,2.0,4.0,2.1,3.0,5.6,3.2,1.7],
-    [1.3,1.9,2.2,4.4,2.4,3.3,6.1,3.6,1.9],
-    [1.4,2.0,2.4,4.8,2.6,3.6,6.5,3.9,2.1],
-    [1.8,2.5,3.0,5.8,3.2,4.6,8.2,5.0,2.6],
-    [2.1,3.0,3.8,6.8,4.0,5.6,9.4,5.8,3.1],
-    [1.9,2.8,3.4,6.2,3.6,5.0,8.8,5.3,2.8],
+    [null,null,null,null,1.8,2.1,4.2,2.3,3.1,5.8,3.4,1.8],
+    [null,null,null,null,1.7,2.0,4.0,2.1,3.0,5.6,3.2,1.7],
+    [null,null,null,null,1.9,2.2,4.4,2.4,3.3,6.1,3.6,1.9],
+    [null,null,null,null,2.0,2.4,4.8,2.6,3.6,6.5,3.9,2.1],
+    [null,null,null,null,2.5,3.0,5.8,3.2,4.6,8.2,5.0,2.6],
+    [null,null,null,null,null,3.8,6.8,4.0,5.6,9.4,5.8,3.1],
+    [null,null,null,null,null,3.4,6.2,3.6,5.0,8.8,5.3,2.8],
   ],
   prep:[
-    [8.2,9.1,10.2,14.8,10.6,12.4,18.2,13.6,9.4],
-    [8.0,9.0,10.1,14.6,10.4,12.2,17.9,13.4,9.2],
-    [8.4,9.3,10.4,15.1,10.8,12.7,18.6,13.9,9.6],
-    [8.6,9.5,10.8,15.6,11.2,13.2,19.4,14.5,9.9],
-    [9.4,10.8,12.4,18.2,12.8,15.6,23.4,17.4,11.2],
-    [10.6,12.4,14.4,21.6,14.8,18.6,28.0,20.6,12.8],
-    [10.2,11.8,13.6,20.2,13.8,17.4,26.2,19.2,12.2],
+    [null,null,null,null, 9.1,10.2,14.8,10.6,12.4,18.2,13.6, 9.4],
+    [null,null,null,null, 9.0,10.1,14.6,10.4,12.2,17.9,13.4, 9.2],
+    [null,null,null,null, 9.3,10.4,15.1,10.8,12.7,18.6,13.9, 9.6],
+    [null,null,null,null, 9.5,10.8,15.6,11.2,13.2,19.4,14.5, 9.9],
+    [null,null,null,null,10.8,12.4,18.2,12.8,15.6,23.4,17.4,11.2],
+    [null,null,null,null,null, 14.4,21.6,14.8,18.6,28.0,20.6,12.8],
+    [null,null,null,null,null, 13.6,20.2,13.8,17.4,26.2,19.2,12.2],
   ],
   delays:[
-    [1.8,2.4,3.1,6.2,3.4,4.8,8.4,4.9,2.6],
-    [1.7,2.3,3.0,6.0,3.2,4.6,8.1,4.7,2.5],
-    [1.9,2.5,3.2,6.4,3.5,5.0,8.7,5.1,2.7],
-    [2.1,2.8,3.6,7.0,3.9,5.6,9.6,5.7,3.0],
-    [2.6,3.5,4.4,8.6,4.8,6.8,12.4,7.3,3.9],
-    [3.2,4.4,5.6,10.4,5.8,8.4,15.2,9.0,4.8],
-    [2.9,4.0,5.1,9.6,5.4,7.8,14.0,8.3,4.4],
+    [null,null,null,null,2.4,3.1,6.2,3.4,4.8, 8.4,4.9,2.6],
+    [null,null,null,null,2.3,3.0,6.0,3.2,4.6, 8.1,4.7,2.5],
+    [null,null,null,null,2.5,3.2,6.4,3.5,5.0, 8.7,5.1,2.7],
+    [null,null,null,null,2.8,3.6,7.0,3.9,5.6, 9.6,5.7,3.0],
+    [null,null,null,null,3.5,4.4,8.6,4.8,6.8,12.4,7.3,3.9],
+    [null,null,null,null,null,5.6,10.4,5.8,8.4,15.2,9.0,4.8],
+    [null,null,null,null,null,5.1, 9.6,5.4,7.8,14.0,8.3,4.4],
   ],
 };
 
@@ -2029,21 +2036,19 @@ function hmLevel(v,q20,q40,q60,q80){
 function hmBuildTable(metricKey){
   const data=HM_DATA[metricKey];
   const meta=HM_META[metricKey];
-  const flat=data.flat();
+  const flat=data.flat().filter(v=>v!==null);
   const q20=hmQuantile(flat,.2),q40=hmQuantile(flat,.4),q60=hmQuantile(flat,.6),q80=hmQuantile(flat,.8);
   const maxVal=Math.max(...flat);
   const minVal=Math.min(...flat);
   let maxI=0,maxJ=0,minI=0,minJ=0;
-  data.forEach((row,i)=>row.forEach((v,j)=>{if(v===maxVal){maxI=i;maxJ=j}if(v===minVal){minI=i;minJ=j}}));
+  data.forEach((row,i)=>row.forEach((v,j)=>{if(v!==null&&v===maxVal){maxI=i;maxJ=j}if(v!==null&&v===minVal){minI=i;minJ=j}}));
   const pfx=meta.isOps?'hm-r':'hm-g';
 
-  // Group header row
   const grpRow=`<tr>
     <th class="hm-corner"></th>
     ${HM_GROUPS.map((g,gi)=>`<th class="hm-grp-th${gi>0?' hm-grp-sep':''}" colspan="${g.span}">${g.label}</th>`).join('')}
   </tr>`;
 
-  // Slot header row
   const slotRow=`<tr>
     <th class="hm-corner"></th>
     ${HM_SLOTS.map((s,si)=>`<th class="hm-slot-th${si>0&&si%3===0?' hm-grp-sep':''}">${s}</th>`).join('')}
@@ -2052,11 +2057,14 @@ function hmBuildTable(metricKey){
   const rows=data.map((row,i)=>{
     const isWknd=i>=4;
     const cells=row.map((v,j)=>{
+      const sepCls=j>0&&j%3===0?' hm-grp-sep':'';
+      if(v===null){
+        return`<td class="hm-cell hm-closed${sepCls}" title="${HM_DAYS[i]} · ${HM_SLOT_FULL[j]} — Outlet closed"><span class="hm-cell-v">—</span></td>`;
+      }
       const lv=hmLevel(v,q20,q40,q60,q80);
       const isPeak=i===maxI&&j===maxJ;
       const isSlow=i===minI&&j===minJ;
       const tip=`${HM_DAYS[i]} · ${HM_SLOT_FULL[j]}<br><strong>${meta.tip(v)}</strong>`;
-      const sepCls=j>0&&j%3===0?' hm-grp-sep':'';
       return`<td class="hm-cell ${pfx}${lv}${sepCls}" onmouseover="hmTip(this,event)" onmouseleave="hmHide()" data-tip="${tip}">
         <span class="hm-cell-v">${meta.fmt(v)}</span>
         <span class="hm-cell-u">${meta.sub}</span>
@@ -2080,6 +2088,10 @@ function hmBuildLegend(metricKey){
     :['#F0FAF8','#C3EDE6','#7BC8BE','#008470','#00342C'];
   const swatches=colors.map(c=>`<div class="hm-sw" style="background:${c}"></div>`).join('');
   return`<div class="hm-legend">
+    <div style="display:flex;align-items:center;gap:6px;margin-right:14px;padding-right:14px;border-right:1px solid #EAECED">
+      <div class="hm-sw" style="background:#F3F5F5;border:1px solid #E0E3E3"></div>
+      <span class="hm-legend-lbl" style="color:#8A9099">Closed</span>
+    </div>
     <span class="hm-legend-lbl">${meta.isOps?'Better (low)':'Low'}</span>
     <div class="hm-swatches">${swatches}</div>
     <span class="hm-legend-lbl">${meta.isOps?'Worse (high)':'High'}</span>
@@ -2090,10 +2102,10 @@ function hmBuildLegend(metricKey){
 function hmBuildInsight(metricKey){
   const data=HM_DATA[metricKey];
   const meta=HM_META[metricKey];
-  const flat=data.flat();
+  const flat=data.flat().filter(v=>v!==null);
   const maxVal=Math.max(...flat),minVal=Math.min(...flat);
   let maxI=0,maxJ=0,minI=0,minJ=0;
-  data.forEach((row,i)=>row.forEach((v,j)=>{if(v===maxVal){maxI=i;maxJ=j}if(v===minVal){minI=i;minJ=j}}));
+  data.forEach((row,i)=>row.forEach((v,j)=>{if(v!==null&&v===maxVal){maxI=i;maxJ=j}if(v!==null&&v===minVal){minI=i;minJ=j}}));
 
   if(meta.isOps){
     return`<div class="hm-insight red" id="hm-insight">
