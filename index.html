@@ -1067,6 +1067,7 @@ function go(path){
     body.innerHTML=`<div class="pg-empty"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="32" height="32" rx="6" stroke="#D4D6D6" stroke-width="2"/><path d="M12 20h16M12 26h10" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/><path d="M12 14h16" stroke="#D4D6D6" stroke-width="2" stroke-linecap="round"/></svg><span class="pg-empty-title">${r.lbl}</span><span class="pg-empty-sub">Content coming soon</span></div>`;
   }
   setTimeout(normalizeExportBtns,50);
+  setTimeout(gsRender,0);
 }
 const _EXP_ICO=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1.5v5.5M3.5 5L6 7.5 8.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.5 10h9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 function normalizeExportBtns(){document.querySelectorAll('.sp-export-btn,.oc-export-btn,.ia-export-btn').forEach(btn=>{const t=btn.textContent.trim();if(t.startsWith('Export'))btn.innerHTML='Export '+_EXP_ICO})}
@@ -1143,20 +1144,14 @@ function buildSalesPerf(){return`<div class="sp-page">
 <div class="sp-card-lg sp-anchor" id="sec-gross-sales" data-path="/analytics/sales/gross-sales">
   <div class="sp-sec-top">
     <div class="sp-sec-left">
-      <div><div class="sp-sec-title">Gross sales breakdown</div><div class="sp-sec-sub">The distribution of Gross sales by customer zones and menu items.</div></div>
-      <div class="sp-tabs"><span class="sp-tab">By menu item</span><span class="sp-tab active">By customer zone</span><span class="sp-tab">By outlet</span></div>
+      <div><div class="sp-sec-title">Gross sales breakdown</div><div class="sp-sec-sub" id="gs-sub">The distribution of Gross sales by outlets.</div></div>
+      <div class="sp-tabs" id="gs-tabs"><span class="sp-tab active" onclick="gsTab(0)">By outlets</span><span class="sp-tab" onclick="gsTab(1)">By brands</span><span class="sp-tab" onclick="gsTab(2)">By customer zone</span></div>
     </div>
     <div class="sp-sec-right"><button class="sp-export-btn">Export</button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
   </div>
   <div class="sp-tbl-wrap"><table class="sp-tbl">
-    <thead><tr><th>Customer zone <span class="sp-sort">▲▼</span></th><th>Orders <span class="sp-sort">▲▼</span></th><th>Gross sales (AED) <span class="sp-sort">▲▼</span></th><th>Order contribution <span class="sp-sort">▲▼</span></th></tr></thead>
-    <tbody>
-      <tr><td>Business Bay</td><td>56</td><td>1,200</td><td>16%</td></tr>
-      <tr><td>Dubai Marina</td><td>150</td><td>4,000</td><td>20%</td></tr>
-      <tr><td>Media City</td><td>79</td><td>2,370</td><td>5%</td></tr>
-      <tr><td>Motor City</td><td>6</td><td>240</td><td>2%</td></tr>
-      <tr><td>Internet City</td><td>6</td><td>180</td><td>2%</td></tr>
-    </tbody>
+    <thead><tr><th id="gs-col1">Outlet <span class="sp-sort">▲▼</span></th><th>Orders <span class="sp-sort">▲▼</span></th><th>Gross sales (AED) <span class="sp-sort">▲▼</span></th><th>Order contribution <span class="sp-sort">▲▼</span></th></tr></thead>
+    <tbody id="gs-tbody"></tbody>
   </table></div>
   <div class="sp-pages"><span class="sp-pg-btn">‹</span><span class="sp-pg-btn active">1</span><span class="sp-pg-btn">2</span><span class="sp-pg-btn">3</span><span class="sp-pg-btn">4</span><span class="sp-pg-btn">5</span><span class="sp-pg-btn">›</span></div>
 </div>
@@ -3926,6 +3921,36 @@ go('/analytics/sales/orders-sales');
 
 // Outlets table for Orders/Sales card
 const OSS_METRICS={'kfc-marina':{orders:120,gross:1200,contrib:16},'kfc-jbr':{orders:4000,gross:40000,contrib:20},'kfc-difc':{orders:370,gross:2370,contrib:5},'kfc-yas':{orders:40,gross:240,contrib:2},'kfc-shj':{orders:180,gross:1800,contrib:12},'ph-marina':{orders:85,gross:950,contrib:8},'ph-moe':{orders:210,gross:2100,contrib:11},'hrd-jbr':{orders:95,gross:870,contrib:9},'herfy-d':{orders:30,gross:300,contrib:3},'pop-dm':{orders:220,gross:2200,contrib:15},'pop-ad':{orders:60,gross:600,contrib:4}};
+/* ── Gross sales breakdown tabs ── */
+const GS_ZONES=[{name:'Business Bay',orders:56,gross:1200,contrib:8},{name:'Dubai Marina',orders:150,gross:4000,contrib:12},{name:'JBR',orders:820,gross:9800,contrib:20},{name:'DIFC',orders:370,gross:2370,contrib:7},{name:'Downtown Dubai',orders:220,gross:2200,contrib:15},{name:'Al Barsha',orders:210,gross:2100,contrib:11},{name:'Media City',orders:79,gross:2370,contrib:5},{name:'Deira',orders:30,gross:300,contrib:3},{name:'Motor City',orders:6,gross:240,contrib:2},{name:'Internet City',orders:6,gross:180,contrib:1}];
+let gsSt={tab:0};
+function gsFmt(n){if(n>=10000)return(n/1000).toFixed(0)+'k';if(n>=1000)return(n/1000).toFixed(1)+'k';return n.toLocaleString()}
+function gsTab(idx){
+  gsSt.tab=idx;
+  document.querySelectorAll('#gs-tabs .sp-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  gsRender();
+}
+function gsRender(){
+  const el=document.getElementById('gs-tbody');if(!el)return;
+  const subs=['The distribution of Gross sales by outlets.','The distribution of Gross sales by brands.','The distribution of Gross sales by customer zones.'];
+  const subEl=document.getElementById('gs-sub');if(subEl)subEl.textContent=subs[gsSt.tab];
+  let rows,col1;
+  if(gsSt.tab===0){
+    col1='Outlet';
+    rows=SD.outlets.map(o=>{const m=OSS_METRICS[o.id]||{orders:50,gross:500,contrib:3};return{name:o.name,orders:m.orders,gross:m.gross,contrib:m.contrib}}).sort((a,b)=>b.orders-a.orders);
+  }else if(gsSt.tab===1){
+    col1='Brand';
+    const bMap={};
+    SD.outlets.forEach(o=>{const m=OSS_METRICS[o.id]||{orders:50,gross:500,contrib:3};if(!bMap[o.brand]){bMap[o.brand]={orders:0,gross:0}}bMap[o.brand].orders+=m.orders;bMap[o.brand].gross+=m.gross});
+    const total=Object.values(bMap).reduce((s,v)=>s+v.orders,0);
+    rows=SD.brands.map(b=>{const v=bMap[b.id]||{orders:0,gross:0};return{name:b.name,orders:v.orders,gross:v.gross,contrib:total>0?Math.round(v.orders/total*100):0}}).sort((a,b)=>b.orders-a.orders);
+  }else{
+    col1='Customer zone';
+    rows=[...GS_ZONES].sort((a,b)=>b.orders-a.orders);
+  }
+  const col1El=document.getElementById('gs-col1');if(col1El)col1El.innerHTML=col1+' <span class="sp-sort">▲▼</span>';
+  el.innerHTML=rows.map(r=>`<tr><td>${r.name}</td><td>${gsFmt(r.orders)}</td><td>${gsFmt(r.gross)}</td><td>${r.contrib}%</td></tr>`).join('');
+}
 let ossSortKey=null,ossSortDir=1;
 function ossRenderTbl(){
   const tbody=document.getElementById('oss-tbl-body');if(!tbody)return;
