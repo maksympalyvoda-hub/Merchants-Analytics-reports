@@ -165,7 +165,11 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .sp-range-item{height:32px;padding:4px 12px;border-radius:8px;font-size:14px;font-weight:600;color:#232424;cursor:pointer;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 .sp-range-item.active{background:#00342C;border-color:#00342C;color:#fff}
-.dr-input{height:32px;padding:4px 10px;border-radius:8px;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;gap:2px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.dr-input{height:32px;padding:4px 10px;border-radius:8px;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;gap:2px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.dr-input.active{background:#00342C;border-color:#00342C}
+.dr-input.active .dr-input-text{color:#fff}
+.dr-input.active .dr-input-sep,.dr-input.active .dr-input-ico{color:#9DC9C3}
+.dr-input.open{border-color:#9DC9C3}
 .dr-input:hover{border-color:#9DC9C3}
 .dr-input-text{font-size:14px;font-weight:600;color:#7E8080}
 .dr-input-sep{display:flex;align-items:center;color:#9DC9C3;padding:0 2px}
@@ -1061,7 +1065,7 @@ function buildSalesPerf(){return`<div class="sp-page">
 <div class="sp-card-lg sp-anchor" id="sec-orders-sales" data-path="/analytics/sales/orders-sales">
   <div class="sp-controls">
     <div class="sp-controls-left">
-      <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
+      <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input" onclick="drOpen(this)"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
     </div>
   </div>
   <span class="sp-compared">Data shown for: 22 Apr – 28 Apr &nbsp;·&nbsp; Comparison period: 15 Apr – 21 Apr</span>
@@ -1191,7 +1195,7 @@ function buildOpsQuality(){
   ];
   return`<div class="sp-page">
 <div class="oq-filter" style="margin-bottom:8px">
-  <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
+  <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input" onclick="drOpen(this)"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
   <button class="oq-dl-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6.5L7 9.5L10 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Download report</button>
 </div>
 <span class="sp-compared">Data shown for: 22 Apr – 28 Apr</span>
@@ -3975,6 +3979,131 @@ document.addEventListener('click',e=>{
 document.querySelectorAll('.sp-chart-footer .sp-legend-item').forEach(item=>{
   const g=document.createElement('div');g.className='sp-legend-right';
   item.parentNode.insertBefore(g,item);g.appendChild(item);
+});
+</script>
+<!-- Date range picker overlay (reuses rp-cal-* styles) -->
+<div id="dr-cal-dd" style="display:none;position:fixed;z-index:500;background:#fff;border:1.5px solid #E0E3E3;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.14);overflow:hidden">
+  <div class="rp-cals" id="dr-cals"></div>
+</div>
+<script>
+let drSt=null;
+function drEnsureInit(){
+  if(drSt)return;
+  const n=new Date();
+  let ly=n.getFullYear(),lm=n.getMonth()-1;
+  if(lm<0){lm=11;ly--}
+  drSt={open:false,start:null,end:null,hov:null,ly,lm,anchor:null};
+}
+function drCalDays(yr,mo){
+  const{start,end,hov}=drSt;
+  const first=new Date(yr,mo,1).getDay();
+  const dim=new Date(yr,mo+1,0).getDate();
+  const today=new Date();
+  let h='';
+  for(let i=0;i<first;i++)h+=`<div class="rp-cal-d empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isFuture=new Date(yr,mo,d)>today;
+    const isToday=(yr===today.getFullYear()&&mo===today.getMonth()&&d===today.getDate());
+    if(isFuture){h+=`<div class="rp-cal-d dis">${d}</div>`;continue}
+    const rangeEnd=end||hov;
+    const isRS=ds===start,isRE=ds===end||(ds===hov&&!end&&hov>start);
+    const inR=start&&rangeEnd&&ds>start&&ds<rangeEnd;
+    let cls='rp-cal-d';
+    if(isRS&&isRE)cls+=' rs re';else if(isRS)cls+=' rs';else if(isRE)cls+=' re';else if(inR)cls+=' ir';
+    const dot=isToday?`<span class="rp-cal-today-dot"></span>`:'';
+    h+=`<div class="${cls}" data-date="${ds}" onclick="drCalClick('${ds}')" onmouseenter="drCalHov('${ds}')">${d}${dot}</div>`;
+  }
+  return h;
+}
+function drRenderCal(){
+  const cals=document.getElementById('dr-cals');if(!cals)return;
+  let{ly,lm}=drSt;let ry=ly,rm=lm+1;
+  if(rm>11){rm=0;ry++}
+  const chevL=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8 10L4 6.5L8 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const chevR=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 3L9 6.5L5 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  cals.innerHTML=`
+    <div class="rp-cal">
+      <div class="rp-cal-nav-row">
+        <button class="rp-cal-btn" onclick="drCalPrev()">${chevL}</button>
+        <span class="rp-cal-lbl">${RP_MONTHS[lm]} ${ly}</span>
+        <span style="width:30px"></span>
+      </div>
+      <div class="rp-cal-grid">${RP_DAYS.map(d=>`<div class="rp-cal-dh">${d}</div>`).join('')}${drCalDays(ly,lm)}</div>
+    </div>
+    <div class="rp-cal" style="border-left:1px solid #F0F5F4;padding-left:16px">
+      <div class="rp-cal-nav-row">
+        <span style="width:30px"></span>
+        <span class="rp-cal-lbl">${RP_MONTHS[rm]} ${ry}</span>
+        <button class="rp-cal-btn" onclick="drCalNext()">${chevR}</button>
+      </div>
+      <div class="rp-cal-grid">${RP_DAYS.map(d=>`<div class="rp-cal-dh">${d}</div>`).join('')}${drCalDays(ry,rm)}</div>
+    </div>`;
+}
+function drOpen(el){
+  drEnsureInit();
+  // Close if same anchor already open
+  if(drSt.open&&drSt.anchor===el){drClose();return}
+  drSt.anchor=el;drSt.open=true;
+  el.classList.add('open');
+  const dd=document.getElementById('dr-cal-dd');if(!dd)return;
+  drRenderCal();
+  dd.style.display='block';
+  const rect=el.getBoundingClientRect();
+  dd.style.top=(rect.bottom+6)+'px';
+  dd.style.left=rect.left+'px';
+  setTimeout(()=>{
+    const r=dd.getBoundingClientRect();
+    if(r.right>window.innerWidth-12)dd.style.left=(window.innerWidth-r.width-12)+'px';
+  },0);
+}
+function drClose(){
+  if(!drSt)return;
+  if(drSt.anchor){drSt.anchor.classList.remove('open')}
+  drSt.open=false;drSt.hov=null;
+  const dd=document.getElementById('dr-cal-dd');
+  if(dd)dd.style.display='none';
+}
+function drCalPrev(){let{ly,lm}=drSt;lm--;if(lm<0){lm=11;ly--}drSt.ly=ly;drSt.lm=lm;drRenderCal()}
+function drCalNext(){let{ly,lm}=drSt;lm++;if(lm>11){lm=0;ly++}drSt.ly=ly;drSt.lm=lm;drRenderCal()}
+function drCalClick(ds){
+  if(!drSt.start||(drSt.start&&drSt.end)){drSt.start=ds;drSt.end=null}
+  else if(ds===drSt.start){return}
+  else if(ds<drSt.start){drSt.end=drSt.start;drSt.start=ds;drApply();return}
+  else{drSt.end=ds;drApply();return}
+  drSt.hov=null;drRenderCal();
+}
+function drCalHov(ds){
+  if(!drSt.start||drSt.end)return;
+  if(ds===drSt.hov)return;
+  drSt.hov=ds;
+  document.querySelectorAll('#dr-cals .rp-cal-d[data-date]').forEach(el=>{
+    const d=el.dataset.date;
+    el.classList.remove('rs','re','ir');
+    const isRS=d===drSt.start,isRE=d===ds&&ds>drSt.start,inR=d>drSt.start&&d<ds;
+    if(isRS&&isRE){el.classList.add('rs');el.classList.add('re')}
+    else if(isRS)el.classList.add('rs');
+    else if(isRE)el.classList.add('re');
+    else if(inR)el.classList.add('ir');
+  });
+}
+function drFmt(ds){const[,m,d]=ds.split('-');return`${parseInt(d)} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]}`}
+function drApply(){
+  if(!drSt||!drSt.start)return;
+  const a=drSt.anchor;
+  if(a){
+    const texts=a.querySelectorAll('.dr-input-text');
+    if(texts[0])texts[0].textContent=drFmt(drSt.start);
+    if(texts[1])texts[1].textContent=drSt.end?drFmt(drSt.end):'...';
+    const row=a.closest('.sp-range');
+    if(row)row.querySelectorAll('.sp-range-item').forEach(i=>i.classList.remove('active'));
+    a.classList.add('active');
+  }
+  drClose();
+}
+// Close on outside click
+document.addEventListener('click',e=>{
+  if(drSt&&drSt.open&&!e.target.closest('#dr-cal-dd')&&!e.target.closest('.dr-input'))drClose();
 });
 </script>
 </body>
