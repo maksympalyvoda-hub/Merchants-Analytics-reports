@@ -1257,22 +1257,27 @@ function buildOpsQuality(){
     <div class="sp-sec-title">Outlet performance</div>
     <div style="display:flex;align-items:center;gap:10px"><span class="oq-date-lbl">12 Jan – 11 Feb</span><button class="sp-export-btn">Export</button></div>
   </div>
-  <div class="oq-tabs">
-    <span class="oq-tab active">Cancellations</span>
-    <span class="oq-tab">Defects</span>
-    <span class="oq-tab">Prep efficiency</span>
-  </div>
   <div class="sp-tbl-wrap"><table class="sp-tbl">
-    <thead><tr><th style="text-align:left">Outlet <span class="sp-sort">▲▼</span></th><th>No. of cancellations <span class="sp-sort">▲▼</span></th><th>% of orders <span class="sp-sort">▲▼</span></th><th style="text-align:left">Top issue <span class="sp-sort">▲▼</span></th><th>Sales lost (AED) <span class="sp-sort">▲▼</span></th></tr></thead>
+    <thead><tr>
+      <th style="text-align:left">Outlet <span class="sp-sort">▲▼</span></th>
+      <th>Cancellations <span class="sp-sort">▲▼</span></th>
+      <th>Defects <span class="sp-sort">▲▼</span></th>
+      <th>Delay % <span class="sp-sort">▲▼</span></th>
+      <th>Wait time <span class="sp-sort">▲▼</span></th>
+      <th>Offline <span class="sp-sort">▲▼</span></th>
+    </tr></thead>
     <tbody>
-      <tr><td><div style="font-weight:600">KFC Marina</div><div class="oq-tbl-sub">OUT-4821</div></td><td class="oq-red oq-red-dot">12</td><td class="oq-red">6%</td><td>Missing ingredient</td><td>87</td></tr>
-      <tr><td><div style="font-weight:600">KFC JBR</div><div class="oq-tbl-sub">OUT-4822</div></td><td>8</td><td>3%</td><td>Too many orders</td><td>54</td></tr>
-      <tr><td><div style="font-weight:600">KFC DIFC</div><div class="oq-tbl-sub">OUT-4823</div></td><td class="oq-red oq-red-dot">14</td><td class="oq-red">7%</td><td>Item out of stock</td><td>102</td></tr>
-      <tr><td><div style="font-weight:600">KFC Yas Mall</div><div class="oq-tbl-sub">OUT-5102</div></td><td>5</td><td>2%</td><td>Missing ingredient</td><td>35</td></tr>
-      <tr><td><div style="font-weight:600">Pizza Hut Marina</div><div class="oq-tbl-sub">OUT-4901</div></td><td>7</td><td>3%</td><td>Too many orders</td><td>48</td></tr>
+      <tr><td><div style="font-weight:600">KFC Marina</div><div class="oq-tbl-sub">OUT-4821</div></td><td class="oq-red oq-red-dot">12</td><td>4</td><td class="oq-red">6%</td><td>3m 12s</td><td>14m</td></tr>
+      <tr><td><div style="font-weight:600">KFC JBR</div><div class="oq-tbl-sub">OUT-4822</div></td><td>8</td><td>2</td><td>3%</td><td>2m 45s</td><td>5m</td></tr>
+      <tr><td><div style="font-weight:600">KFC DIFC</div><div class="oq-tbl-sub">OUT-4823</div></td><td class="oq-red oq-red-dot">14</td><td class="oq-red oq-red-dot">7</td><td class="oq-red">7%</td><td>4m 02s</td><td>22m</td></tr>
+      <tr><td><div style="font-weight:600">KFC Yas Mall</div><div class="oq-tbl-sub">OUT-5102</div></td><td>5</td><td>1</td><td>2%</td><td>2m 30s</td><td>0m</td></tr>
+      <tr><td><div style="font-weight:600">Pizza Hut Marina</div><div class="oq-tbl-sub">OUT-4901</div></td><td>7</td><td>3</td><td>3%</td><td>2m 58s</td><td>8m</td></tr>
+      <tr><td><div style="font-weight:600">Pizza Hut MoE</div><div class="oq-tbl-sub">OUT-4902</div></td><td>4</td><td>2</td><td>2%</td><td>2m 20s</td><td>3m</td></tr>
+      <tr><td><div style="font-weight:600">HardeeI's JBR</div><div class="oq-tbl-sub">OUT-5201</div></td><td>6</td><td>1</td><td>4%</td><td>3m 05s</td><td>11m</td></tr>
+      <tr><td><div style="font-weight:600">Herfy Downtown</div><div class="oq-tbl-sub">OUT-5301</div></td><td>3</td><td>0</td><td>1%</td><td>1m 55s</td><td>0m</td></tr>
     </tbody>
   </table></div>
-  <div class="sp-pages"><span class="sp-pg-btn">‹</span><span class="sp-pg-btn active">1</span><span class="sp-pg-btn">2</span><span class="sp-pg-btn">3</span><span class="sp-pg-btn">›</span></div>
+  <div class="sp-pages"><span class="sp-pg-btn">‹</span><span class="sp-pg-btn active">1</span><span class="sp-pg-btn">2</span><span class="sp-pg-btn">›</span></div>
 </div>
 
 <div class="sp-card-lg sp-anchor" id="sec-order-prep-eff" data-path="/analytics/ops-quality/order-prep-efficiency" style="scroll-margin-top:16px">
