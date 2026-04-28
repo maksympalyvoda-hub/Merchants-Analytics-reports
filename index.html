@@ -1204,6 +1204,7 @@ function buildSalesPerf(){return`<div class="sp-page">
   <div class="sp-pages"><span class="sp-pg-btn">‹</span><span class="sp-pg-btn active">1</span><span class="sp-pg-btn">2</span><span class="sp-pg-btn">3</span><span class="sp-pg-btn">4</span><span class="sp-pg-btn">5</span><span class="sp-pg-btn">›</span></div>
 </div>
 
+<div class="sp-two" style="align-items:stretch">
 <div class="sp-card-lg sp-anchor" id="sec-avg-order" data-path="/analytics/sales/avg-order-value">
   <div class="sp-sec-top">
     <div class="sp-sec-left">
@@ -1215,7 +1216,7 @@ function buildSalesPerf(){return`<div class="sp-page">
       <div class="sp-stat"><div class="sp-stat-row">${I.info}<span class="sp-stat-val">100</span>${tag('5%','down')}</div><span class="sp-stat-lbl">Avg. order value</span></div>
     </div>
   </div>
-  <div class="sp-chart-wrap" style="height:290px"><canvas id="chart-aov"></canvas></div>
+  <div class="sp-chart-wrap" style="height:260px"><canvas id="chart-aov"></canvas></div>
   <div class="sp-chart-footer">
     <div class="cmp-wrap"><div class="cmp-trigger" onclick="cmpToggle(this)"><span class="cmp-label">Compare to: None</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cmp-dropdown"><div class="cmp-menu"><div class="cmp-item" onclick="cmpSelect(this)" data-label="Previous period"><span class="cmp-cb"></span>Previous period</div><div class="cmp-item" onclick="cmpSelect(this)" data-label="Previous month"><span class="cmp-cb"></span>Previous month</div><div class="cmp-item" onclick="cmpSelect(this)" data-label="Previous year"><span class="cmp-cb"></span>Previous year</div></div><div class="cmp-footer"><button class="cmp-reset" onclick="cmpReset(this)">Reset</button><button class="cmp-apply" onclick="cmpApply(this)">Apply</button></div></div></div>
     <div class="sp-legend-item"><div class="sp-legend-dot"></div>Order value: 12 Jan – 11 Feb</div>
@@ -1229,7 +1230,7 @@ function buildSalesPerf(){return`<div class="sp-page">
     </div>
     <div class="sp-sec-right"><button class="sp-export-btn">Export</button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
   </div>
-  <div style="height:300px;margin-top:12px"><canvas id="chart-meal-perf"></canvas></div>
+  <div style="height:260px;margin-top:12px"><canvas id="chart-meal-perf"></canvas></div>
   <div class="mp-legend">
     <span class="mp-leg-item"><span class="mp-dot" style="background:#336D65"></span>Breakfast (6AM–11AM)</span>
     <span class="mp-leg-item"><span class="mp-dot" style="background:#00E784;outline:1px solid #d0f5e3;outline-offset:1px"></span>Lunch (11AM–3PM)</span>
@@ -1238,6 +1239,7 @@ function buildSalesPerf(){return`<div class="sp-page">
     <span class="mp-leg-item"><span class="mp-dot" style="background:#C8CACA;border:1.5px solid #B0B3B3"></span>Late night (11PM–6AM)</span>
     <span class="mp-leg-item" style="margin-left:8px;padding-left:16px;border-left:1px solid #EAECED"><span class="mp-line-ico"></span>AOV (AED)</span>
   </div>
+</div>
 </div>
 
 <div class="sp-anchor" id="sec-hourly-daily" data-path="/analytics/sales/hourly-daily" style="scroll-margin-top:16px">
