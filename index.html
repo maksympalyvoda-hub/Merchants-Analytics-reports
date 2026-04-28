@@ -157,7 +157,7 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-stat-val{font-size:20px;font-weight:600;color:#202121}
 .sp-stat-unit{font-size:14px;font-weight:600;color:#202121}
 .sp-stat-lbl{font-size:14px;color:#5C5E5E}
-.sp-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sp-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .sp-controls-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .sp-seg{display:flex;background:#F0F5F4;border-radius:6px;padding:3px;align-self:flex-start}
 .sp-seg-item{padding:5px 14px;border-radius:4px;font-size:16px;font-weight:500;color:#606161;cursor:pointer;line-height:22px;transition:color .15s}
@@ -170,7 +170,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .dr-input-text{font-size:14px;font-weight:600;color:#7E8080}
 .dr-input-sep{display:flex;align-items:center;color:#9DC9C3;padding:0 2px}
 .dr-input-ico{display:flex;align-items:center;color:#606161;margin-left:6px;opacity:0.8}
-.sp-compared{font-size:12px;color:#434545}
+.sp-compared{font-size:13px;color:#5C5E5E;margin-bottom:16px;display:block;line-height:20px}
+.sp-compared:empty{display:none}
 .sp-tabs{display:flex;gap:20px}
 .sp-tab{padding:8px 0;font-size:13px;font-weight:500;color:#606161;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s}
 .sp-tab.active{color:#008470;border-bottom-color:#008470;font-weight:600}
@@ -1060,11 +1061,11 @@ function buildSalesPerf(){return`<div class="sp-page">
 <div class="sp-card-lg sp-anchor" id="sec-orders-sales" data-path="/analytics/sales/orders-sales">
   <div class="sp-controls">
     <div class="sp-controls-left">
-      <div class="sp-range"><div class="sp-range-item">Today</div><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
-      <span class="sp-compared">Compared to: Monday last week (12 Jan)</span>
+      <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
     </div>
     <button class="sp-dl-btn">Download report</button>
   </div>
+  <span class="sp-compared">Data shown for: 22 Apr – 28 Apr &nbsp;·&nbsp; Comparison period: 15 Apr – 21 Apr</span>
   <div class="sp-sec-top">
     <div class="sp-sec-left">
       <div class="sp-seg"><div class="sp-seg-item active" onclick="ossSegSwitch(0)">Orders</div><div class="sp-seg-item" onclick="ossSegSwitch(1)">Gross sales</div><div class="sp-seg-item" onclick="ossSegSwitch(2)">Outlets</div></div>
@@ -1190,10 +1191,11 @@ function buildOpsQuality(){
     {lbl:'Late night (11PM–6AM)',vals:[185,165,200,185,220,195,210]},
   ];
   return`<div class="sp-page">
-<div class="oq-filter">
-  <div class="sp-range"><div class="sp-range-item">Today</div><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
+<div class="oq-filter" style="margin-bottom:8px">
+  <div class="sp-range"><div class="sp-range-item active">Last 7 days</div><div class="sp-range-item">Last 30 days</div><div class="dr-input"><span class="dr-input-text">Start date</span><span class="dr-input-sep"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9.5 5.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="dr-input-text">End date</span><span class="dr-input-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.75" y="2.75" width="12.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.75 6.25h12.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 1.5v2.5M11 1.5v2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span></div></div>
   <button class="oq-dl-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6.5L7 9.5L10 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Download report</button>
 </div>
+<span class="sp-compared">Data shown for: 22 Apr – 28 Apr</span>
 <div class="sp-cards">
   <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Partner cancellations</span>${tag('6%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">12</span><span class="sp-lbl">Last 7 days</span></div><div class="sp-card-sec"><span class="sp-sval">6%</span><span class="sp-slbl">% of orders</span></div></div></div>
   <div class="sp-card"><div class="sp-card-hdr"><span class="sp-card-title">Orders with defect</span>${tag('6%','up')}</div><div class="sp-card-body"><div class="sp-card-main"><span class="sp-val">22</span><span class="sp-lbl">Last 7 days</span></div><div class="sp-card-sec"><span class="sp-sval">6%</span><span class="sp-slbl">% of orders</span></div></div></div>
@@ -3935,7 +3937,7 @@ function cmpReset(btn){
   if(section){
     section.querySelectorAll('canvas').forEach(c=>{const ch=chartInstances[c.id];if(ch)cmpRemoveFromChart(ch)});
     const cl=footer.querySelector('.sp-legend-item-cmp');if(cl)cl.remove();
-    const cp=section.querySelector('.sp-compared');if(cp)cp.textContent='';
+    const cp=section.querySelector('.sp-compared');if(cp)cp.innerHTML='Data shown for: 22 Apr – 28 Apr';
   }
 }
 function cmpApply(btn){
@@ -3965,7 +3967,7 @@ function cmpApply(btn){
   }
   // Update sp-compared header text
   const cp=section.querySelector('.sp-compared');
-  if(cp)cp.textContent=label?'Compared to: '+label:'';
+  if(cp)cp.innerHTML=label?'Data shown for: 22 Apr – 28 Apr &nbsp;·&nbsp; Comparison period: 15 Apr – 21 Apr':'Data shown for: 22 Apr – 28 Apr';
 }
 document.addEventListener('click',e=>{
   if(!e.target.closest('.cmp-wrap'))document.querySelectorAll('.cmp-wrap.open').forEach(w=>w.classList.remove('open'));
