@@ -127,10 +127,10 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sum-hdr-left{display:flex;flex-direction:column;gap:2px}
 .sum-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
 .sum-updated{font-size:13px;color:#606161;line-height:18px}
-.sum-filter{display:flex;gap:6px;margin-bottom:12px}
-.sum-fi{padding:5px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid #D4D6D6;background:#fff;color:#5C5E5E;font-family:var(--font);transition:background .15s,border-color .15s,color .15s;line-height:20px}
-.sum-fi:hover{border-color:#9DC9C3;color:#202121}
-.sum-fi.active{background:#00342C;border-color:#00342C;color:#00E784;font-weight:600}
+.sum-filter{display:flex;gap:8px;margin-bottom:12px}
+.sum-fi{height:32px;padding:4px 12px;border-radius:8px;font-size:14px;font-weight:600;color:#232424;cursor:pointer;border:1px solid #D4D6D6;background:#fff;display:flex;align-items:center;white-space:nowrap;font-family:var(--font);transition:background .15s,color .15s,border-color .15s}
+.sum-fi:hover{border-color:#9DC9C3}
+.sum-fi.active{background:#00342C;border-color:#00342C;color:#fff}
 .sum-sub{font-size:14px;font-weight:400;color:#232424;line-height:20px;margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#F3F5F5;border:1px solid #D4D6D6;border-radius:4px;padding:8px 16px}
 .sum-sub svg{flex-shrink:0;color:#44505C}
 .sp-cards{display:flex;gap:16px;align-items:flex-start}
@@ -1132,7 +1132,7 @@ function buildSalesPerf(){return`<div class="sp-page">
 <div class="sc-wrap">
   <div class="sum-hdr">
     <div class="sum-hdr-left">
-      <span class="sum-title">Today&#x2019;s summary</span>
+      <span class="sum-title">Performance snapshot</span>
       <span class="sum-updated" id="sum-updated">Updated as of: 16:00</span>
     </div>
   </div>
