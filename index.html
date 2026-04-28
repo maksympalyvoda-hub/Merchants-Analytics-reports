@@ -277,6 +277,12 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sp-donut-legend{display:flex;flex-direction:column;gap:12px}
 .sp-dl-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#434545}
 .sp-dl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* Meal performance combined chart */
+.mp-legend{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:center;margin-top:16px;padding-top:14px;border-top:1px solid #F0F5F4}
+.mp-leg-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#5C5E5E;white-space:nowrap}
+.mp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block}
+.mp-line-ico{width:18px;height:2px;background:#008470;border-radius:2px;display:inline-block;flex-shrink:0;position:relative}
+.mp-line-ico::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;border:2px solid #008470;background:#fff}
 .sp-bar-wrap{position:relative;width:100%}
 
 /* ── Operations Quality ── */
@@ -998,7 +1004,7 @@ const NAV=[
 ];
 
 const SALES_PATHS=new Set(['/analytics/sales/orders-sales','/analytics/sales/gross-sales','/analytics/sales/avg-order-value','/analytics/sales/meal-breakdown','/analytics/sales/avg-order-mealtime','/analytics/sales/hourly-daily']);
-const PATH_TO_SEC={'/analytics/sales/orders-sales':'sec-orders-sales','/analytics/sales/gross-sales':'sec-gross-sales','/analytics/sales/avg-order-value':'sec-avg-order','/analytics/sales/meal-breakdown':'sec-meal','/analytics/sales/avg-order-mealtime':'sec-avg-mealtime','/analytics/sales/hourly-daily':'sec-hourly-daily'};
+const PATH_TO_SEC={'/analytics/sales/orders-sales':'sec-orders-sales','/analytics/sales/gross-sales':'sec-gross-sales','/analytics/sales/avg-order-value':'sec-avg-order','/analytics/sales/meal-breakdown':'sec-meal-perf','/analytics/sales/avg-order-mealtime':'sec-meal-perf','/analytics/sales/hourly-daily':'sec-hourly-daily'};
 const OPS_PATHS=new Set(['/analytics/ops-quality/partner-cancellations','/analytics/ops-quality/defects','/analytics/ops-quality/outlet-performance','/analytics/ops-quality/order-prep-efficiency','/analytics/ops-quality/order-prep-breakdown','/analytics/ops-quality/avg-acceptance-time','/analytics/ops-quality/offline-time']);
 const PATH_TO_OPS_SEC={'/analytics/ops-quality/partner-cancellations':'sec-partner-cancel','/analytics/ops-quality/defects':'sec-defects','/analytics/ops-quality/outlet-performance':'sec-outlet-perf','/analytics/ops-quality/order-prep-efficiency':'sec-order-prep-eff','/analytics/ops-quality/order-prep-breakdown':'sec-order-prep-bk','/analytics/ops-quality/avg-acceptance-time':'sec-avg-accept','/analytics/ops-quality/offline-time':'sec-offline'};
 const CUST_PATHS=new Set(['/analytics/customer/customer-breakdown','/analytics/customer/no-of-customers','/analytics/customer/ratings-food-orders','/analytics/customer/conversion-funnel','/analytics/customer/order-frequency','/analytics/customer/reorder-rate','/analytics/customer/impressions','/analytics/customer/discount-impact','/analytics/customer/retention']);
@@ -1174,25 +1180,21 @@ function buildSalesPerf(){return`<div class="sp-page">
   </div>
 </div>
 
-<div class="sp-two">
-  <div class="sp-card-lg sp-anchor" id="sec-meal" data-path="/analytics/sales/meal-breakdown">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div class="sp-sec-title">Meal breakdown</div><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
-    <div class="sp-sec-sub" style="margin-bottom:20px">Breakdown of gross sales by meal time</div>
-    <div class="sp-donut-wrap">
-      <div class="sp-donut-chart"><canvas id="chart-meal"></canvas></div>
-      <div class="sp-donut-legend">
-        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#336D65"></div>Breakfast (6AM – 11AM): 42%</div>
-        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#00E784"></div>Lunch (11AM – 3PM): 28%</div>
-        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#334768"></div>Snack (3PM – 7PM): 16%</div>
-        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#9DC9C3"></div>Dinner (7PM – 11PM): 12%</div>
-        <div class="sp-dl-item"><div class="sp-dl-dot" style="background:#E7E5E5"></div>Late night (11PM – 6AM): 8%</div>
-      </div>
+<div class="sp-card-lg sp-anchor" id="sec-meal-perf" data-path="/analytics/sales/meal-breakdown">
+  <div class="sp-sec-top">
+    <div class="sp-sec-left">
+      <div><div class="sp-sec-title">Meal performance by time</div><div class="sp-sec-sub">Orders and average order value across meal periods</div></div>
     </div>
+    <div class="sp-sec-right"><button class="sp-export-btn">Export</button><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
   </div>
-  <div class="sp-card-lg sp-anchor" id="sec-avg-mealtime" data-path="/analytics/sales/avg-order-mealtime">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div class="sp-sec-title">Avg. order value during mealtime</div><span style="font-size:14px;color:#5C5E5E">12 Jan – 11 Feb</span></div>
-    <div class="sp-sec-sub" style="margin-bottom:20px">Average basket value by meal time based on gross sales</div>
-    <div class="sp-bar-wrap" style="height:230px"><canvas id="chart-mealtime"></canvas></div>
+  <div style="height:300px;margin-top:12px"><canvas id="chart-meal-perf"></canvas></div>
+  <div class="mp-legend">
+    <span class="mp-leg-item"><span class="mp-dot" style="background:#336D65"></span>Breakfast (6AM–11AM)</span>
+    <span class="mp-leg-item"><span class="mp-dot" style="background:#00E784;outline:1px solid #d0f5e3;outline-offset:1px"></span>Lunch (11AM–3PM)</span>
+    <span class="mp-leg-item"><span class="mp-dot" style="background:#334768"></span>Snack (3PM–7PM)</span>
+    <span class="mp-leg-item"><span class="mp-dot" style="background:#9DC9C3"></span>Dinner (7PM–11PM)</span>
+    <span class="mp-leg-item"><span class="mp-dot" style="background:#C8CACA;border:1.5px solid #B0B3B3"></span>Late night (11PM–6AM)</span>
+    <span class="mp-leg-item" style="margin-left:8px;padding-left:16px;border-left:1px solid #EAECED"><span class="mp-line-ico"></span>AOV (AED)</span>
   </div>
 </div>
 
@@ -1731,10 +1733,34 @@ function initCharts(){
     {label:'Careem Plus',data:[35,40,38,42,36,45,41,39,43,44],borderColor:'#00E784',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#00E784',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4},
     {label:'Non Careem Plus',data:[65,62,67,63,68,64,66,68,65,62],borderColor:'#001942',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',align:'center',labels:{color:'#606161',font:{size:13,family:'var(--font)'},usePointStyle:true,pointStyle:'circle',padding:24,boxWidth:8,boxHeight:8}},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${i.dataset.label}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12},stepSize:25,callback:v=>`${v}`},min:0,max:100}}}})};
-  const c3=document.getElementById('chart-meal');
-  if(c3)chartInstances['chart-meal']=new Chart(c3.getContext('2d'),{type:'doughnut',data:{datasets:[{data:[42,28,16,12,8],backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#E7E5E5'],borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${['Breakfast','Lunch','Snack','Dinner','Late night'][i.dataIndex]}: ${i.raw}%`}}}}});
-  const c4=document.getElementById('chart-mealtime');
-  if(c4)chartInstances['chart-mealtime']=new Chart(c4.getContext('2d'),{type:'bar',data:{labels:['Breakfast\n6AM–11AM','Lunch\n11AM–3PM','Snack\n3PM–7PM','Dinner\n7PM–11PM','Late night\n11PM–6AM'],datasets:[{data:[6.8,7.6,3.9,6.6,3.6],backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#E7E5E5'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`AED ${i.raw}`}}},scales:{x:{grid:{display:false},ticks:{color:'#5C5E5E',font:{size:11},maxRotation:0}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:11}},min:0,max:10}}}});
+  const cMp=document.getElementById('chart-meal-perf');
+  if(cMp){const mpCtx=cMp.getContext('2d');chartInstances['chart-meal-perf']=new Chart(mpCtx,{
+    data:{
+      labels:['Breakfast\n6AM–11AM','Lunch\n11AM–3PM','Snack\n3PM–7PM','Dinner\n7PM–11PM','Late night\n11PM–6AM'],
+      datasets:[
+        {type:'bar',label:'Orders',data:[420,280,160,120,80],
+          backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#C8CACA'],
+          borderRadius:6,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.7,yAxisID:'yOrders',order:2},
+        {type:'line',label:'AOV (AED)',data:[6.8,7.6,3.9,6.6,3.6],
+          borderColor:'#008470',backgroundColor:'transparent',borderWidth:2.5,
+          pointBackgroundColor:'#fff',pointBorderColor:'#008470',pointBorderWidth:2,
+          pointRadius:5,pointHoverRadius:7,tension:0.4,yAxisID:'yAOV',order:1}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{mode:'index',intersect:false,callbacks:{label:i=>i.dataset.label==='Orders'?`Orders: ${i.raw}`:`AOV: AED ${i.raw}`}}},
+      scales:{
+        x:{grid:{display:false},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12,family:'var(--font)'},maxRotation:0}},
+        yOrders:{type:'linear',position:'left',grid:{color:'#F0F5F4'},border:{display:false},
+          ticks:{color:'#5C5E5E',font:{size:12},stepSize:100},min:0,max:500,
+          title:{display:true,text:'Orders',color:'#8A9099',font:{size:11,family:'var(--font)'}}},
+        yAOV:{type:'linear',position:'right',grid:{drawOnChartArea:false},border:{display:false},
+          ticks:{color:'#008470',font:{size:12},callback:v=>`AED ${v}`},min:0,max:12,
+          title:{display:true,text:'Avg. order value',color:'#008470',font:{size:11,family:'var(--font)'}}}
+      }
+    }
+  })}
 }
 
 function initOpsCharts(){
