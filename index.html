@@ -98,6 +98,7 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sc-row:hover{background:#F5F5F5}
 .sc-row.all-row{font-weight:600;color:var(--c-txt-pri);border-bottom:1px solid #F0F1F1;margin-bottom:2px}
 .sc-row input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--c-active);cursor:pointer}
+.sc-col-dis{pointer-events:none}
 .o-lbl{display:flex;flex-direction:column;gap:1px}
 .o-meta{font-size:11px;color:var(--c-txt-ter)}
 .sc-empty{padding:12px 14px;font-size:12px;color:#AAADB0;font-style:italic}
@@ -1005,15 +1006,19 @@ function buildSalesPerf(){return`<div class="sp-page">
   <div class="sp-sec-top">
     <div class="sp-sec-left">
       <div class="sp-seg"><div class="sp-seg-item active">Orders</div><div class="sp-seg-item">Gross sales</div><div class="sp-seg-item">Outlets</div></div>
-      <div class="sp-tabs"><span class="sp-tab active">Overall</span><span class="sp-tab">New, retained, reactivated</span><span class="sp-tab">Careem Plus, non Careem Plus</span></div>
+      <div class="sp-tabs" id="oss-tabs"><span class="sp-tab active" onclick="ordSalesTab(0)">Overall</span><span class="sp-tab" onclick="ordSalesTab(1)">New, retained, reactivated</span><span class="sp-tab" onclick="ordSalesTab(2)">Careem Plus, non Careem Plus</span></div>
     </div>
     <div class="sp-sec-right">
       <button class="sp-export-btn">Export</button>
       <div class="sp-stat"><div class="sp-stat-row">${I.info}<span class="sp-stat-unit">AED</span><span class="sp-stat-val">20,000</span>${tag('5%','down')}</div><span class="sp-stat-lbl">Total gross sales</span></div>
     </div>
   </div>
-  <div class="sp-chart-wrap" style="height:300px"><canvas id="chart-orders"></canvas></div>
-  <div class="sp-chart-footer">
+  <div class="sp-chart-wrap" style="height:300px;position:relative">
+    <canvas id="chart-orders" style="position:absolute;inset:0;width:100%!important;height:100%!important"></canvas>
+    <canvas id="chart-orders-nrr" style="display:none;position:absolute;inset:0;width:100%!important;height:100%!important"></canvas>
+    <canvas id="chart-orders-cplus" style="display:none;position:absolute;inset:0;width:100%!important;height:100%!important"></canvas>
+  </div>
+  <div class="sp-chart-footer" id="oss-footer">
     <div class="sp-compare">Compare<div class="sp-switch"><div class="sp-switch-nob"></div></div></div>
     <div class="sp-legend-item"><div class="sp-legend-dot"></div>Orders: January 12 – February 11</div>
   </div>
@@ -1583,10 +1588,34 @@ function buildCustomerInsights(){return`<div class="sp-page">
 const DATES=['12 Jan','15 Jan','18 Jan','21 Jan','24 Jan','27 Jan','30 Jan','3 Feb','6 Feb','11 Feb'];
 const LINE_D=[11,10.2,2.5,1.9,2.2,2.1,1.7,2.3,2.2,1.8];
 
+function ordSalesTab(idx){
+  document.querySelectorAll('#oss-tabs .sp-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  ['chart-orders','chart-orders-nrr','chart-orders-cplus'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.style.display=i===idx?'block':'none';
+    if(i===idx&&chartInstances[id])setTimeout(()=>chartInstances[id].resize(),0);
+  });
+  const footer=document.getElementById('oss-footer');
+  if(footer)footer.style.display=idx===0?'flex':'none';
+}
 function initCharts(){
   const mkLine=(id,lbl)=>{const el=document.getElementById(id);if(!el)return;const ctx=el.getContext('2d');chartInstances[id]=new Chart(ctx,{type:'line',data:{labels:DATES,datasets:[{data:LINE_D,borderColor:'#001942',borderWidth:2,pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointRadius:4,pointHoverRadius:6,fill:true,backgroundColor:(c)=>{const g=c.chart.ctx.createLinearGradient(0,0,0,c.chart.height);g.addColorStop(0,'rgba(0,25,66,0.12)');g.addColorStop(1,'rgba(0,25,66,0.01)');return g},tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${lbl}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},ticks:{color:'#5C5E5E',font:{size:12}},min:0,max:13}}}})};
   mkLine('chart-orders','Orders');
   mkLine('chart-aov','AED');
+  // NRR breakdown — 3 series: New / Retained / Reactivated
+  const nrrEl=document.getElementById('chart-orders-nrr');
+  if(nrrEl){const nrrCtx=nrrEl.getContext('2d');chartInstances['chart-orders-nrr']=new Chart(nrrCtx,{type:'line',data:{labels:DATES,datasets:[
+    {label:'New',data:[88,82,86,54,50,56,52,54,58,48],borderColor:'#001942',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4},
+    {label:'Retained',data:[62,68,65,42,46,48,52,48,50,52],borderColor:'#00E784',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#00E784',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4},
+    {label:'Reactivated',data:[42,46,44,28,30,33,30,27,32,28],borderColor:'#9DC9C3',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#9DC9C3',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',align:'center',labels:{color:'#606161',font:{size:13,family:'var(--font)'},usePointStyle:true,pointStyle:'circle',padding:24,boxWidth:8,boxHeight:8}},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${i.dataset.label}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12},stepSize:25,callback:v=>`${v}`},min:0,max:100}}}})}
+  // Careem Plus vs non-Plus
+  const cpEl=document.getElementById('chart-orders-cplus');
+  if(cpEl){const cpCtx=cpEl.getContext('2d');chartInstances['chart-orders-cplus']=new Chart(cpCtx,{type:'line',data:{labels:DATES,datasets:[
+    {label:'Careem Plus',data:[35,40,38,42,36,45,41,39,43,44],borderColor:'#00E784',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#00E784',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4},
+    {label:'Non Careem Plus',data:[65,62,67,63,68,64,66,68,65,62],borderColor:'#001942',borderWidth:2,backgroundColor:'transparent',pointBackgroundColor:'#fff',pointBorderColor:'#001942',pointBorderWidth:2,pointRadius:4,pointHoverRadius:6,fill:false,tension:0.4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',align:'center',labels:{color:'#606161',font:{size:13,family:'var(--font)'},usePointStyle:true,pointStyle:'circle',padding:24,boxWidth:8,boxHeight:8}},tooltip:{mode:'index',intersect:false,callbacks:{label:i=>`${i.dataset.label}: ${i.raw}`}}},scales:{x:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12}}},y:{grid:{color:'#F0F5F4'},border:{display:false},ticks:{color:'#5C5E5E',font:{size:12},stepSize:25,callback:v=>`${v}`},min:0,max:100}}}})};
   const c3=document.getElementById('chart-meal');
   if(c3)chartInstances['chart-meal']=new Chart(c3.getContext('2d'),{type:'doughnut',data:{datasets:[{data:[42,28,16,12,8],backgroundColor:['#336D65','#00E784','#334768','#9DC9C3','#E7E5E5'],borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:i=>`${['Breakfast','Lunch','Snack','Dinner','Late night'][i.dataIndex]}: ${i.raw}%`}}}}});
   const c4=document.getElementById('chart-mealtime');
@@ -1656,18 +1685,20 @@ const avBrands=()=>{const ids=new Set(avCos().filter(c=>P.cos.has(c.id)).map(c=>
 const avOutlets=()=>{const ids=new Set(avBrands().filter(b=>P.brands.has(b.id)).map(b=>b.id));return SD.outlets.filter(o=>P.cities.has(o.city)&&ids.has(o.brand))};
 function togCity(id,v){if(v){P.cities.add(id);SD.cos.filter(c=>c.cities.includes(id)&&!P.cos.has(c.id)).forEach(c=>{P.cos.add(c.id);SD.brands.filter(b=>b.co===c.id).forEach(b=>{P.brands.add(b.id);SD.outlets.filter(o=>o.brand===b.id&&o.city===id).forEach(o=>P.outlets.add(o.id))})});SD.outlets.filter(o=>o.city===id&&P.brands.has(o.brand)).forEach(o=>P.outlets.add(o.id))}else{P.cities.delete(id);SD.outlets.filter(o=>o.city===id).forEach(o=>P.outlets.delete(o.id));SD.cos.forEach(c=>{if(!c.cities.some(ci=>P.cities.has(ci))){P.cos.delete(c.id);SD.brands.filter(b=>b.co===c.id).forEach(b=>{P.brands.delete(b.id);SD.outlets.filter(o=>o.brand===b.id).forEach(o=>P.outlets.delete(o.id))})}})};renderSel()}
 function togCo(id,v){if(v){P.cos.add(id);SD.brands.filter(b=>b.co===id).forEach(b=>{P.brands.add(b.id);SD.outlets.filter(o=>o.brand===b.id&&P.cities.has(o.city)).forEach(o=>P.outlets.add(o.id))})}else{P.cos.delete(id);SD.brands.filter(b=>b.co===id).forEach(b=>{P.brands.delete(b.id);SD.outlets.filter(o=>o.brand===b.id).forEach(o=>P.outlets.delete(o.id))})};renderSel()}
-function togBrand(id,v){if(v){P.brands.add(id);SD.outlets.filter(o=>o.brand===id&&P.cities.has(o.city)).forEach(o=>P.outlets.add(o.id))}else{P.brands.delete(id);SD.outlets.filter(o=>o.brand===id).forEach(o=>P.outlets.delete(o.id))};renderSel()}
-function togOutlet(id,v){if(v)P.outlets.add(id);else P.outlets.delete(id);renderSel()}
+function togBrand(id,v){if(v){avBrands().forEach(b=>P.brands.delete(b.id));P.brands.add(id);P.outlets.clear();SD.outlets.filter(o=>o.brand===id&&P.cities.has(o.city)).forEach(o=>P.outlets.add(o.id))}else{saBrand(true);return};renderSel()}
+function togOutlet(id,v){if(v){avOutlets().forEach(o=>P.outlets.delete(o.id));P.outlets.add(id)}else{saOutlet(true);return};renderSel()}
 function saCity(v){if(v){SD.cities.forEach(c=>togCity(c.id,true))}else{[...P.cities].forEach(id=>togCity(id,false))};renderSel()}
 function saCo(v){const av=avCos();if(v){av.forEach(c=>togCo(c.id,true))}else{av.forEach(c=>togCo(c.id,false))};renderSel()}
-function saBrand(v){const av=avBrands();if(v){av.forEach(b=>togBrand(b.id,true))}else{av.forEach(b=>togBrand(b.id,false))};renderSel()}
-function saOutlet(v){const av=avOutlets();if(v)av.forEach(o=>P.outlets.add(o.id));else av.forEach(o=>P.outlets.delete(o.id));renderSel()}
+function saBrand(v){if(!v){return renderSel()}const av=avBrands();av.forEach(b=>P.brands.add(b.id));avOutlets().forEach(o=>P.outlets.add(o.id));renderSel()}
+function saOutlet(v){if(!v){return renderSel()}avOutlets().forEach(o=>P.outlets.add(o.id));renderSel()}
 function renderSel(){
   const aC=avCos(),aB=avBrands(),aO=avOutlets();
+  const allBrandsSelected=aB.length>0&&aB.every(b=>P.brands.has(b.id));
   document.getElementById('col-city').innerHTML=col('City',SD.cities,P.cities,'togCity','saCity');
   document.getElementById('col-co').innerHTML=col('Company',aC,P.cos,'togCo','saCo');
   document.getElementById('col-brand').innerHTML=col('Brand',aB,P.brands,'togBrand','saBrand');
   document.getElementById('col-outlet').innerHTML=colOutlet(aO);
+  document.getElementById('col-outlet').classList.toggle('sc-col-dis',allBrandsSelected);
   const n=P.outlets.size;document.getElementById('sel-cnt').textContent=n;document.getElementById('sel-s').textContent=n===1?'':'s';
   document.querySelectorAll('.cb-all[data-indet="1"]').forEach(cb=>cb.indeterminate=true);
 }
