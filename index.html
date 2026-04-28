@@ -126,8 +126,8 @@ a,button{cursor:pointer;border:none;background:none;font:inherit;color:inherit;t
 .sum-hdr{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
 .sum-title{font-size:20px;font-weight:600;color:#202121;line-height:28px}
 .sum-updated{font-size:13px;color:#606161;line-height:18px}
-.sum-sub{font-size:14px;color:#3D4F4E;line-height:22px;margin-bottom:14px;display:inline-flex;align-items:center;gap:8px;background:#EEF8F6;border-left:3px solid #9DC9C3;border-radius:0 6px 6px 0;padding:8px 14px}
-.sum-sub svg{flex-shrink:0}
+.sum-sub{font-size:14px;font-weight:400;color:#232424;line-height:20px;margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#F3F5F5;border:1px solid #F3F5F5;border-radius:4px;padding:8px 16px}
+.sum-sub svg{flex-shrink:0;color:#606161}
 .sp-cards{display:flex;gap:16px}
 .sp-card{background:#fff;border:1px solid #F0F5F4;border-radius:8px;padding:16px;flex:1;min-width:0}
 .sp-card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -1048,7 +1048,7 @@ function buildSalesPerf(){return`<div class="sp-page">
     <span class="sum-updated">Updated as of: 16:00</span>
   </div>
   <div class="sum-sub">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#434545" stroke-width="1.3"/><path d="M7 6.5v3.5" stroke="#434545" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="4.5" r="0.7" fill="#434545"/></svg>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.5v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="5.5" r="0.75" fill="currentColor"/></svg>
     <span>% changes compared to previous Thursday (6 Jun) &middot; up to 16:00</span>
   </div>
   <div class="sp-cards">
